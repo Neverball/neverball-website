@@ -1,0 +1,70 @@
+a { background: inherit; color: #FF4949; /*#822100;*/ overflow: hidden; outline: none; }
+a:focus, a:hover, a:active { color: #338D33; /*#D73300;*/ }
+a:link img, a:visited img{ border-color: #FF4949; /*#822100;*/ }
+a:focus img, a:hover img, a:active img { border-color: #338D33; /*#D73300;*/ }
+
+body, div, td, th, h2, h3, h4 { /* redundant rules for bad browsers  */
+	background: inherit;
+	color: #333;
+}
+body {
+	background: #FF4949 url("../../images/neverstyle/background-ie.png") repeat-x;
+	color: #333;
+	padding: 1em 20px 3em;
+	margin: 0 auto;
+	max-width: 934px;
+	min-width: 750px;
+}
+dd { padding: 4px 0 8px 20px; }
+dt { padding: 4px 0 0; }
+h1, h2 { background: inherit; margin: 0; }
+h2 {
+	border-bottom: 1px solid #CCC;
+	margin-top: 10px;
+}
+h3 { padding: 16px 0 4px 0; }
+ul { list-style: disc; }
+li { margin: 2px 0 2px 26px; }
+p { padding: 6px 0 6px 20px; }
+p.note {
+	background: #DEDFDF;
+	color: #333;
+	padding: 4px;
+	font-family: tahoma,sans-serif;
+	font-size: 85%;
+	line-height: 130%;
+	margin-top: 0;
+}
+.prev a { background: transparent url("../../images/go-previous.png") no-repeat center left; }
+.back a {
+	padding-top: 22px;
+	background: transparent url("../../images/go-up.png") no-repeat top center;
+}
+.next a { background: transparent url("../../images/go-next.png") no-repeat center right; }
+.table-style th { background-color: #DEDFDF; }
+pre {
+	background-color: #DEDFDF;
+	border: #666 dashed 1px;
+	padding: 4px;
+}
+#banner {
+	background: url("../../images/neverstyle/heading.png") no-repeat;
+	display: block;
+	float: none;
+	height: 52px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 356px;
+}
+#wrapper, #navigation{ background: transparent; }
+* html div.shot{
+  float: left;
+}
+* html div.shot a.prev{
+  margin: -40px 0 0;
+}
+* html div.controls a{
+  height: 525px;
+  background-position: center 250px;
+}
+.fullimg p { padding: 0 0 16px 0; }

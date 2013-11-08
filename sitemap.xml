@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+                      http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+ <url>
+  <loc>http://neverball.org/</loc>
+  <lastmod>2009-02-04T23:47:21Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/changes.php</loc>
+  <lastmod>2009-02-01T21:41:45Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/contributors.php</loc>
+  <lastmod>2009-02-03T03:38:44Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/download.php</loc>
+  <lastmod>2009-02-04T18:38:04Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/faq.php</loc>
+  <lastmod>2009-02-04T15:30:38Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/index.php</loc>
+  <priority>0.5000</priority>
+ </url>
+ <url>
+  <loc>http://neverball.org/screenshots.php</loc>
+  <lastmod>2009-02-01T23:54:16Z</lastmod>
+  <priority>0.5000</priority>
+ </url>
+</urlset>

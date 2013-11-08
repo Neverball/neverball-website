@@ -1,0 +1,245 @@
+@import url("../global.css");
+
+body{
+	background: #FF4949 url("../../images/neverstyle/background.png") repeat-x;
+	color: #FFF;
+}
+#banner{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 256px;
+	padding: 0;
+	background: transparent url("../../images/neverstyle/stars.png");
+}
+#banner:after{
+	display: block;
+	margin-top: 76px;
+	text-align: center;
+	background: inherit;
+	content: url("../../images/neverstyle/heading.png");
+}
+
+#banner h1{
+	display:none;
+}
+
+#navigation{
+	position: absolute;
+	top: 0px;
+	left:50%;
+	width:696px;
+	height: 70px;
+	z-index:1;
+	margin-left:-348px;
+	text-align: center;
+}
+
+#primary{
+	position: absolute;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+
+}
+
+#primary li{
+	display: inline;
+	padding: 0;
+	text-align: center;
+	font-size:medium;
+	font-weight: bolder;
+	list-style-type: none;
+
+}
+
+#primary li a, #primary li span{
+	display: block;
+	width: 116px;
+	height: 50px;
+	float: left;
+	margin: 0;
+	padding-left: 0;
+	padding-right: 0;
+	padding-bottom: 0;
+	background: url("../../images/neverstyle/tab.png") no-repeat bottom;
+	text-decoration: none;
+}
+
+#primary li a{
+	padding-top: 10px;
+	color: #FFF;
+}
+
+#primary li span{
+	padding-top: 20px;
+	color: #FFAF00;
+}
+
+#primary li a:hover{
+	padding-top: 20px;
+}
+
+#primary li span:before{
+	display:block;
+	height: 18px;
+	margin-top: -8px;
+	content: url("../../images/neverstyle/widget.png");
+}
+
+#main{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	min-height:100%;
+	padding: 0;
+}
+
+#main:before{
+	display: block;
+	height: 128px;
+	margin-top: 82px;
+	background: transparent url("../../images/neverstyle/loops4.png") scroll no-repeat top right;
+	content: url("../../images/neverstyle/loops3.png");
+}
+
+#main:after{
+	display: block;
+	height: 256px;
+	margin-top: -180px;
+	margin-bottom: 20px;
+	background: transparent url("../../images/neverstyle/wave4.png") scroll no-repeat top right;
+	content: url("../../images/neverstyle/wave1.png");
+}
+#contents{
+	position: relative;
+	margin: -70px 55px 0;
+	padding: 32px;
+	background-image: url("../../images/neverstyle/blacktrans.png");
+}
+
+#contents:before{
+	display: block;
+	height: 30px;
+	margin-top: -32px;
+	margin-right: -32px;
+	margin-left: -32px;
+	border: none;
+	background: transparent url("../../images/neverstyle/top-right.png") no-repeat right;
+	line-height: 0.1;
+	font-size: 1px;
+	content: url("../../images/neverstyle/top-left.png");
+}
+
+#contents:after{
+	display: block;
+	height: 30px;
+	margin-left: -32px;
+	margin-right: -32px;
+	margin-bottom: -32px;
+	background: transparent url("../../images/neverstyle/bottom-right.png") no-repeat right;
+	line-height: 0.1;
+	font-size: 1px;
+	content:  url("../../images/neverstyle/bottom-left.png");
+}
+
+#contents a{
+	background-color: inherit;
+	color: #F55;
+}
+
+#contents a:hover{
+	background-color: inherit;
+	color: #FFAF00;
+}
+
+#contents p,pre{
+	margin-left: 20px;
+}
+
+#contents h2{
+	color: #FFAF00;
+	background-color: inherit;
+	font-size: large;
+	font-weight: bolder;
+}
+
+#contents h3{
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+#footer{
+	position: absolute;
+	bottom: 0;
+	height: 50px;
+	line-height: 50px;
+	width: 100%;
+	background-image: url("../../images/neverstyle/blacktrans.png");
+	text-align: center;
+}
+
+#footer:before{
+	display: block;
+	height: 50px;
+	border: none;
+	margin-bottom: -50px;
+	background: transparent url("../../images/neverstyle/footer-right.png") no-repeat right;
+	line-height: 0.1;
+	font-size: 1px;
+	content: url("../../images/neverstyle/footer-left.png");
+	text-align: left;
+}
+
+#footer img{
+	vertical-align: middle;
+	border: 0;
+}
+
+#contents ul{
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#contents li{
+	margin-left: 2em;
+	margin-top: 0.5em;
+	padding-left: 18px;
+	background: url("../../images/neverstyle/ball_small.png") no-repeat center left;
+	line-height: 18px;
+}
+
+dt{
+	color: #FFAF00;
+	background-color: inherit;
+	font-weight: bolder;
+	padding: 6px 0 0;
+}
+dd { padding: 2px 0 6px; }
+
+q{
+	font-style: italic;
+}
+
+code,samp{
+	font-size: large;
+}
+.dl-img-align{
+	vertical-align: middle;
+	padding-left: 0.5em;
+	padding-right: 0.5em;
+}
+
+.mime-type{
+	float: right;
+	padding-right: 8em;
+}
+
+.logo{
+	float: left;
+}
+
+.none{
+	display: none;
+}

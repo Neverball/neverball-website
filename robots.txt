@@ -1,0 +1,16 @@
+User-Agent: *
+Disallow: /.htaccess
+Disallow: /AUTHORS
+Disallow: /CHANGES
+Disallow: /backups/
+Disallow: /counters/
+Disallow: /css/
+Disallow: /files/
+Disallow: /images/
+Disallow: /images/neverstyle/
+Disallow: /includes/
+Disallow: /misc/
+Disallow: /sitemap/
+Allow: /images/shots/
+Allow: /
+

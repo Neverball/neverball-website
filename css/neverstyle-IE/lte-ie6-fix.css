@@ -1,0 +1,5 @@
+#banner{ background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../images/neverstyle/heading.png', sizingMethod='scale'); }
+#wrapper{ width: 934px; width: expression(documentElement.clientWidth >= 934? "934px": documentElement.clientWidth <= 750? "750px": "auto" ); margin: 0 auto; }
+.add-colons dt{ content: expression(this.innerHTML = this.innerHTML.substring(this.innerHTML.length-1,this.innerHTML.length) == ":"? this.innerHTML: this.innerHTML.substring(0,this.innerHTML.length-1)+":" ); }
+div.controls a{ filter: alpha(opacity="0"); }
+div.controls a:hover{ filter: alpha(opacity="50"); }
