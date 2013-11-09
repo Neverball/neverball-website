@@ -1,7 +1,3 @@
-RedirectMatch 301 ^/css/$ http://neverball.org/
-RedirectMatch 301 ^/images/$ http://neverball.org/
-RedirectMatch 301 ^/includes/$ http://neverball.org/
-#
 RewriteEngine on
 
-RewriteRule ^neverball-([0-9]+)\.([0-9]+)\.([0-9]+)(\.tar\.gz|-setup\.exe|\.dmg)$ includes/getdownload.php?fileName=neverball-$1.$2.$3$4&dlSuffix=$4 [NC,L]
+RewriteRule /neverball-([0-9]+)\.([0-9]+)\.([0-9]+)(\.tar\.gz|-setup\.exe|\.dmg)$ /includes/getdownload.php?fileName=neverball-$1.$2.$3$4&dlSuffix=$4 [NC,L]
