@@ -6,16 +6,9 @@ include("includes/header.php");
 <body>
 	<div id="wrapper">
 	<div id="banner"><h1>Neverball</h1></div>
-	<div id="navigation">
-	<ul id="primary">
-		<li><a href="index.php">Home</a></li>
-		<li><a href="screenshots.php">Screenshots</a>
-		<li><a href="download.php">Download</a></li>
-		<li><a href="faq.php">FAQ</a></li>
-		<li><a href="changes.php">Changes</a></li>
-		<li><span>Contributors</span></li>
-	</ul>
-	</div>
+
+<?php include("includes/nav.php"); ?>
+
 	<div id="main">
 		<div id="contents">
 		<h2>Neverball Contributions</h2>
