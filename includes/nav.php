@@ -1,15 +1,14 @@
 <?php 
-$basename = basename($_SERVER['PHP_SELF']);
-$basename = explode('.',$basename);
-$filename = $basename[0]; 
+$filename = basename($_SERVER['PHP_SELF']);
 $class = 'class="current" ';
 $navArray = array(
-	'index' => 'Home',
-	'screenshots' => 'Screenshots',
-	'download' => 'Download',
-	'faq' => 'FAQ',
-	'changes' => 'Changes',
-	'contributors' => 'Contributors'
+	'index.php' => 'Home',
+	'screenshots.php' => 'Screenshots',
+	'download.php' => 'Download',
+	'http://nevercorner.net' => 'Forum',
+#	'faq.php' => 'FAQ',
+	'changes.php' => 'Changes',
+	'contributors.php' => 'Contributors'
 );
 ?>
 
@@ -17,10 +16,10 @@ $navArray = array(
 		<ul id="primary">
 
 <?php
-foreach ($navArray as $k => $v) {
+foreach ($navArray as $url => $title) {
 	echo '			<li><a ';
-	echo ($filename == $k ? $class : '');
-	echo "href=\"{$k}.php\">{$v}</a></li>\n";
+	echo ($url == $filename ? $class : '');
+	echo "href=\"{$url}\">{$title}</a></li>\n";
 }
 ?>
 
