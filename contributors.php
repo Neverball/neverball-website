@@ -13,9 +13,9 @@ include("includes/header.php");
 		<div id="contents">
 		<h2>Neverball Contributions</h2>
 		<dl class="add-colons"><?php
-		if((file_exists("includes/authors.php") && !file_exists("AUTHORS")) || (file_exists("includes/authors.php") && file_exists("AUTHORS") && (filemtime("AUTHORS") == filemtime("includes/authors.php")))){
-			include("includes/authors.php");
-		}else if(!file_exists("includes/authors.php") && !file_exists("AUTHORS")){
+		if((file_exists("cache/authors.php") && !file_exists("AUTHORS")) || (file_exists("cache/authors.php") && file_exists("AUTHORS") && (filemtime("AUTHORS") == filemtime("cache/authors.php")))){
+			include("cache/authors.php");
+		}else if(!file_exists("cache/authors.php") && !file_exists("AUTHORS")){
 			echo "\n\t\t<dd>Failed to read AUTHORS data!</dd>\n";
 		}else{
 			function file_get_contents_utf8($fn){
@@ -53,11 +53,11 @@ include("includes/header.php");
 			$authorsFile = preg_replace_callback("/A:\s.*\n/", "regex_add_parens_and_format", $authorsFile); //Format authors forum names without proper real names
 			$authorsFile = $authorsFile."\n\t\t\t</ul></dd>\n";
 			$authorsFileWrite = "<?php\nif(basename(\$_SERVER[\"SCRIPT_NAME\"]) == \"authors.php\"){\n\tdie();\n}\n?>\n".$authorsFile;
-			$fh = fopen('includes/authors.php', 'w') or die("Failed to open authors.php for writing!");
+			$fh = fopen('cache/authors.php', 'w') or die("Failed to open authors.php for writing!");
 			fwrite($fh, $authorsFileWrite);
 			fclose($fh);
-			chmod("includes/authors.php", 0666);
-			touch("includes/authors.php", filemtime("AUTHORS"));
+			chmod("cache/authors.php", 0666);
+			touch("cache/authors.php", filemtime("AUTHORS"));
 			echo $authorsFile;
 		}?>
 		</dl>

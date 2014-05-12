@@ -49,18 +49,18 @@ function parse_changes($fname){
 	}
 	return $ret;
 }
-if((file_exists("includes/changelog.php") && !file_exists("CHANGES")) || (file_exists("includes/changelog.php") && (filemtime("CHANGES") == filemtime("includes/changelog.php")))){
-	include("includes/changelog.php");
-}else if(!file_exists("includes/changelog.php") && !file_exists("CHANGES")){
+if((file_exists("cache/changelog.php") && !file_exists("CHANGES")) || (file_exists("cache/changelog.php") && (filemtime("CHANGES") == filemtime("cache/changelog.php")))){
+	include("cache/changelog.php");
+}else if(!file_exists("cache/changelog.php") && !file_exists("CHANGES")){
 	echo "\n\t\t<p>Failed to read CHANGES data!</p>\n";
 }else{
 	$changesFile = parse_changes("CHANGES");
 	$changesFileWrite = "<?php\nif(basename(\$_SERVER[\"SCRIPT_NAME\"]) == \"changelog.php\"){\n\tdie();\n}\n?>\n".$changesFile;
-	$fh = fopen('includes/changelog.php', 'w') or die("Failed to open changelog.php for writing!");
+	$fh = fopen('cache/changelog.php', 'w') or die("Failed to open changelog.php for writing!");
 	fwrite($fh, $changesFileWrite);
 	fclose($fh);
-	chmod("includes/changelog.php", 0666);
-	touch("includes/changelog.php", filemtime("CHANGES"));
+	chmod("cache/changelog.php", 0666);
+	touch("cache/changelog.php", filemtime("CHANGES"));
 	echo $changesFile;
 }
 ?></div>
