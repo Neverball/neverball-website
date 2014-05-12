@@ -14,7 +14,7 @@ include("includes/header.php");
 		<h2>About</h2>
 		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part puzzle game, part action game, and entirely a test of skill.</p>
 		<p>Also found here is Neverputt, a hot-seat multiplayer miniature golf game, built on the physics and graphics engine of Neverball.</p>
-		<p>Neverball and Neverputt are both known to run under Linux, Win2K/XP, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A 500MHz processor is recommended.</p>
+		<p>Neverball and Neverputt are both known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A 500MHz processor is recommended.</p>
 		<h2>Status</h2>
 		<p>The current version includes 141 Neverball levels and 134 Neverputt holes.</p>
 		<h2>Community & Contact</h2>
