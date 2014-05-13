@@ -17,7 +17,7 @@ include("includes/header.php");
 		<p>Neverball and Neverputt are both known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A 500MHz processor is recommended.</p>
 		<h2>Status</h2>
 		<p>The current version includes 141 Neverball levels and 134 Neverputt holes.</p>
-		<h2>Community & Contact</h2>
+		<h2>Community &amp; Contact</h2>
 		<p>Neverball fans shino and mym have put together a <a href="http://www.nevercorner.net/table/" onClick="javascript: pageTracker._trackPageview('/outgoing/nevertable');">Neverball Hall of Fame</a>. This site catalogs hundreds of crazy runs and high scores made by expert players. Take a look and witness some very impressive Neverball play. If you've got interesting replays of your own, be sure to submit them!</p>
 		<p>Visit the <a href="http://www.nevercorner.net/forum/" onClick="javascript: pageTracker._trackPageview('/outgoing/neverforum');">Discussion Forum</a> to get in touch with the developers, or if you have questions, want to report bugs, or simply if you would like to chat with other players.</p>
 		<h2>Mapping</h2>
