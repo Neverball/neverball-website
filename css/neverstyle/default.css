@@ -207,7 +207,7 @@ body{
 	margin-left: 2em;
 	margin-top: 0.5em;
 	padding-left: 18px;
-	background: url("../../images/neverstyle/ball_small.png") no-repeat center left;
+	background: url("../../images/neverstyle/ball_small.png") no-repeat top left;
 	line-height: 18px;
 }
 
@@ -224,7 +224,7 @@ q{
 }
 
 code,samp{
-	font-size: large;
+	font-weight: bold;
 }
 .dl-img-align{
 	vertical-align: middle;
