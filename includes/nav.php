@@ -7,7 +7,7 @@ $navArray = array(
 	'download.php' => 'Download',
 	'http://nevercorner.net' => 'Forum',
 #	'faq.php' => 'FAQ',
-	'changes.php' => 'Changes',
+#	'changes.php' => 'Changes',
 	'contributors.php' => 'Contributors'
 );
 ?>

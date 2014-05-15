@@ -18,7 +18,7 @@ include("includes/getdownload.php");
 				echo "<p class=\"error-img\"><span>Our download servers seem to be offline. Sorry... Please try again later.</span></p>\n";
 			}
 		?>
-		<p>Neverball, which includes Neverputt, is available for download here, and will run on most popular operating systems. Neverball is released under the GNU GPL.</p>
+		<p>Neverball and Neverputt are available for download here. Have a look at the <a href="release.php">release notes</a> for what's new in this release. Neverball is released under the GNU GPLv2 (or a later version at your option).</p>
 		<dl class="add-colons">
 			<dt>Source</dt>
 				<dd><p><a href="neverball-1.5.4.tar.gz" title="Neverball Source Code" onClick="javascript: pageTracker._trackPageview('/downloads/src-1.5.4');" id="src">neverball-1.5.4.tar.gz</a> (25.53 MB)</p></dd>

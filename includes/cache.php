@@ -1,5 +1,7 @@
 <?php
 
+require_once("Parsedown.php");
+
 /*
  * Parse AUTHORS.txt
  */
@@ -85,12 +87,33 @@ function cache_parse_changes($orig)
 	return $ret;
 }
 
+function cache_parse_markdown($orig)
+{
+	$Parsedown = new Parsedown();
+
+	$content = file_get_contents($orig);
+	$content = $Parsedown->text($content);
+
+	// Now we have two problems.
+
+	$content = preg_replace('*<(/?)h5>*', '<\1h6>', $content);
+	$content = preg_replace('*<(/?)h4>*', '<\1h5>', $content);
+	$content = preg_replace('*<(/?)h3>*', '<\1h4>', $content);
+	$content = preg_replace('*<(/?)h2>*', '<\1h3>', $content);
+	$content = preg_replace('*<(/?)h1>*', '<\1h2>', $content);
+
+	return $content;
+
+}
+
 function cache_parse($orig)
 {
 	if (strcasecmp(basename($orig, '.txt'), 'authors') == 0)
 		return cache_parse_authors($orig);
 	else if (strcasecmp(basename($orig, '.txt'), 'changes') == 0)
 		return cache_parse_changes($orig);
+	else if (strcmp(pathinfo($orig, PATHINFO_EXTENSION), 'md') == 0)
+		return cache_parse_markdown($orig);
 	return "\n";
 }
 
@@ -113,16 +136,7 @@ function cache_file($orig, $cache)
 	if (!file_exists($orig))
 		return false;
 
-	$name = basename($cache);
-
-	$content = <<<EOF
-<?php
-if (basename(\$_SERVER["SCRIPT_NAME"]) == "$name") {
-	die();
-}
-?>
-EOF;
-	$content .= cache_parse($orig);
+	$content = cache_parse($orig);
 
 	$fh = fopen($cache, 'w');
 
