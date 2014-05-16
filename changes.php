@@ -15,7 +15,7 @@ include("includes/header.php");
 		<div id="contents">
 		<h2>Changes</h2>
 <?php
-$cachefile = cache_file("docs/CHANGES", "cache/changelog.php");
+$cachefile = cache_file("docs/changes.txt", "cache/changelog.php");
 
 if ($cachefile !== false)
 	include($cachefile);
