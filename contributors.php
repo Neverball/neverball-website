@@ -16,7 +16,7 @@ include("includes/header.php");
 		<h2>Neverball Contributions</h2>
 		<dl class="add-colons">
 <?php
-$cachefile = cache_file("AUTHORS", "cache/authors.php");
+$cachefile = cache_file("docs/AUTHORS", "cache/authors.php");
 
 if ($cachefile !== false)
 	include($cachefile);

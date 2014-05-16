@@ -14,7 +14,7 @@ include("includes/header.php");
 	<div id="main">
 		<div id="contents">
 <?php
-$cachefile = cache_file("release-notes.md", "cache/release.php");
+$cachefile = cache_file("docs/release-notes.md", "cache/release.php");
 
 if ($cachefile !== false)
 	include($cachefile);
