@@ -1,6 +1,9 @@
 <?php 
 $filename = basename($_SERVER['PHP_SELF']);
 $class = 'class="current" ';
+
+// Be sure to recompute #navigation width and offset in default.css
+// when changing the number of links in this list.
 $navArray = array(
 	'index.php' => 'Home',
 	'screenshots.php' => 'Screenshots',

@@ -28,10 +28,10 @@ body{
 	position: absolute;
 	top: 0px;
 	left:50%;
-	width:696px;
+	width:580px;
 	height: 70px;
 	z-index:1;
-	margin-left:-348px;
+	margin-left:-290px;
 	text-align: center;
 }
 
