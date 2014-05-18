@@ -7,42 +7,31 @@ require_once("Parsedown.php");
  */
 function cache_parse_authors($orig)
 {
-	function file_get_contents_utf8($fn){
-		$content = file_get_contents($fn);
-		return mb_convert_encoding($content, 'UTF-8', mb_detect_encoding($content, 'UTF-8, ISO-8859-1', true));
-	}
-	function regex_add_parens($addTo){
-		$addTo[0] = preg_replace("/\nA:\s/", " (", $addTo[0]);
-		$addTo[0] = preg_replace("/\n/", "", $addTo[0]);
-		return $addTo[0].")\n";
-	}
-	function regex_add_close_dt($addTo){
-		$addTo[0] = preg_replace("/\n/", "", $addTo[0]);
-		return $addTo[0]."</dt>\n";
-	}
-	function regex_add_close_li($addTo){
-		$addTo[0] =  preg_replace("/\n/", "", $addTo[0]);
-		return $addTo[0]."</li>\n";
-	}
-	function regex_add_parens_and_format($addTo){
-		$addTo[0] = preg_replace("/A:\s/", "\t\t\t</ul></dd>\n\t\t\t<dt>", $addTo[0]);
-		$addTo[0] = preg_replace("/\n/", "", $addTo[0]);
-		return $addTo[0]."</dt>\n\t\t\t<dd><ul>\n";
-	}
-	$authorsFile = file_get_contents_utf8($orig);
-	$authorsFile = preg_replace("/(#.*\n|E:.*\n|P:.*\n)/", "", $authorsFile); //Remove comments, emails and PGP keys
-	$authorsFile = preg_replace("/\n*\n/", "\n", $authorsFile); //Remove un-necessary newlines
-	$authorsFile = preg_replace("/N:\s/", "\t\t\t<dt>", $authorsFile); //Add <dt> tags to beginning of names
-	$authorsFile = preg_replace_callback("/<dt>.*\nA:\s.*\n/", "regex_add_parens", $authorsFile); //Add () around forum handles
-	$authorsFile = preg_replace_callback("/<dt>.*\n/", "regex_add_close_dt", $authorsFile); //Add ending </dt> tag to end of names
-	$authorsFile = preg_replace("/(W: |D: )/", "\t\t\t\t<li>", $authorsFile); //Add <li> tags to beginning of websites and descriptions
-	$authorsFile = preg_replace_callback("/<li>.*\n/", "regex_add_close_li", $authorsFile); //Add <li> tags to end of emails, websites and descriptions
-	$authorsFile = preg_replace("/<\/dt>\n\t\t\t\t<li>/", "</dt>\n\t\t\t<dd><ul>\n\t\t\t\t<li>", $authorsFile); //Insert <dd> and <ul> tags
-	$authorsFile = preg_replace("/<\/li>\n\t\t\t<dt>/", "</li>\n\t\t\t</ul></dd>\n\t\t\t<dt>", $authorsFile); //Insert </ul> and </dd> tags
-	$authorsFile = preg_replace_callback("/A:\s.*\n/", "regex_add_parens_and_format", $authorsFile); //Format authors forum names without proper real names
-	$authorsFile = $authorsFile."\n\t\t\t</ul></dd>\n";
+	$content = "";
+	$lines = file($orig, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	$state = 0;
 
-	return $authorsFile;
+	foreach ($lines as $line) {
+		if (preg_match('/^N: ([^\(]+)/', $line, $matches) === 1) {
+			if ($state === 1) {
+				$content .= "</ul></dd>\n";
+				$state = 0;
+			}
+			if ($state === 0) {
+				$content .= "<dt>" . htmlspecialchars(trim($matches[1])) . "</dt>\n<dd><ul>\n";
+				$state = 1;
+			}
+		} else if (preg_match('/^D: (.*)$/', $line, $matches) === 1) {
+			if ($state === 1) {
+				$content .= "<li>" . htmlspecialchars(trim($matches[1])) . "</li>\n";
+			}
+		}
+	}
+
+	if ($state === 1)
+		$content .= "</ul></dd>\n";
+
+	return $content;
 }
 
 /*
