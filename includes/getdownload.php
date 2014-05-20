@@ -1,8 +1,6 @@
 <?php
 $dlSuffix = $_GET["dlSuffix"];
-if(($dlSuffix == ".tar.gz" || $dlSuffix == "-setup.exe" || $dlSuffix == ".dmg") && (basename($_SERVER["SCRIPT_NAME"]) == "getdownload.php")){
-
-	($dlSuffix == ".tar.gz") ? $dlType = "source" : (($dlSuffix == "-setup.exe") ? $dlType = "win" : $dlType = "mac");
+if(($dlSuffix == ".tar.gz" || $dlSuffix == ".zip" || $dlSuffix == "-setup.exe" || $dlSuffix == ".dmg") && (basename($_SERVER["SCRIPT_NAME"]) == "getdownload.php")){
 
 	// parasti[2009-12-12]: connection timeouts cause warnings to
 	// spill all over the page, tweaked this to silence them.

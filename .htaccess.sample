@@ -1,3 +1,3 @@
 RewriteEngine on
 
-RewriteRule ^(neverball-.*(\.tar\.gz|-setup\.exe|\.dmg))$ includes/getdownload.php?fileName=$1&dlSuffix=$2 [NC,L]
+RewriteRule ^(neverball-.*(\.tar\.gz|-setup\.exe|\.dmg|\.zip))$ includes/getdownload.php?fileName=$1&dlSuffix=$2 [NC,L]
