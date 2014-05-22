@@ -14,7 +14,7 @@ include("includes/header.php");
 
 		<h2>News</h2>
 		<h3>2014-05-21: Neverball 1.6.0</h3>
-		<p>Neverball 1.6.0 is out now! Get it from the <a href="download.php">download page</a> and have a look at the <a href="release.php">release notes</a>.</p><p>Long-time contributor Josh Bush has put together a <a href="images/neverball_poster_1.6.0.png">poster</a> and an <a href="https://www.youtube.com/watch?v=ZQ9VDabHGpA">introductory video</a> to celebrate the release. We also have a <a href="https://www.youtube.com/watch?v=bQqK2YuP2Tc">video on Oculus Rift support</a> from Robert Kooima, the lead developer of Neverball. Be sure to check them out!</p>
+		<p>Neverball 1.6.0 is out now! Get it from the <a href="download.php">download page</a> and have a look at the <a href="release.php">release notes</a>.</p><p>Long-time contributor Cheeseness has put together a <a href="images/neverball_poster_1.6.0.png">poster</a> and an <a href="https://www.youtube.com/watch?v=ZQ9VDabHGpA">introductory video</a> to celebrate the release. We also have a <a href="https://www.youtube.com/watch?v=bQqK2YuP2Tc">video on Oculus Rift support</a> from Robert Kooima, the lead developer of Neverball. Be sure to check them out!</p>
 
 		<h2>About</h2>
 		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part puzzle game, part action game, and entirely a test of skill.</p>
