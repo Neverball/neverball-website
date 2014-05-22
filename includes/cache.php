@@ -12,7 +12,7 @@ function cache_parse_authors($orig)
 	$state = 0;
 
 	foreach ($lines as $line) {
-		if (preg_match('/^N: ([^\(]+)/', $line, $matches) === 1) {
+		if (preg_match('/^N: ([^\[]+)/', $line, $matches) === 1) {
 			if ($state === 1) {
 				$content .= "</ul></dd>\n";
 				$state = 0;
