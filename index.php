@@ -13,8 +13,18 @@ include("includes/header.php");
 		<div id="contents">
 
 		<h2>News</h2>
+		
+		<h3>2016-02-07: Nevercorner.net closing</h3>
+		<p><a href="http://nevercorner.net">nevercorner.net</a>, the site that generously hosted the Neverforum, the Nevertable and the Neverwiki for over ten years, has shut down today. An effort is underway to provide a new place of discussion for the Neverball community. In the mean time, these points of contact are available:</p>
+		<ul>
+			<li><a href="https://www.reddit.com/r/neverball">/r/neverball</a> on Reddit</li>
+			<li><a href="https://steamcommunity.com/groups/neverball">Neverball Steam group</a></li>
+			<li>Neverball development remains on <a href="https://github.com/Neverball">Github</a></li>
+		</ul>
+		
 		<h3>2014-05-21: Neverball 1.6.0</h3>
-		<p>Neverball 1.6.0 is out now! Get it from the <a href="download.php">download page</a> and have a look at the <a href="release.php">release notes</a>.</p><p>Long-time contributor Cheeseness has put together a <a href="images/neverball_poster_1.6.0.png">poster</a> and an <a href="https://www.youtube.com/watch?v=ZQ9VDabHGpA">introductory video</a> to celebrate the release. We also have a <a href="https://www.youtube.com/watch?v=bQqK2YuP2Tc">video on Oculus Rift support</a> from Robert Kooima, the lead developer of Neverball. Be sure to check them out!</p>
+		<p>Neverball 1.6.0 is out now! Get it from the <a href="download.php">download page</a> and have a look at the <a href="release.php">release notes</a>.</p>
+		<p>Long-time contributor Cheeseness has put together a <a href="images/neverball_poster_1.6.0.png">poster</a> and an <a href="https://www.youtube.com/watch?v=ZQ9VDabHGpA">introductory video</a> to celebrate the release. We also have a <a href="https://www.youtube.com/watch?v=bQqK2YuP2Tc">video on Oculus Rift support</a> from Robert Kooima, the lead developer of Neverball. Be sure to check them out!</p>
 
 		<h2>About</h2>
 		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part puzzle game, part action game, and entirely a test of skill.</p>
