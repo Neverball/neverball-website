@@ -38,9 +38,9 @@ view_dz  600</code></pre></dd>
 			<dt><q>Are there plans for a multi-player mode?</q></dt>
 				<dd><p>We're not planning to implement a multi-player mode at this time, as it causes some incoherence problems: 2 players controlling the same floor?</p></dd>
 			<dt><q>I would like to create my own maps, where do I start?</q></dt>
-				<dd><p>Have a look at the <a href="http://www.nevercorner.net/wiki/doku.php?id=level_creation" onClick="javascript: pageTracker._trackPageview('/outgoing/neverwiki');">level creation page</a> of the wiki. You should start with the <a href="http://www.nevercorner.net/wiki/doku.php?id=level_creation_howto" onClick="javascript: pageTracker._trackPageview('/outgoing/neverwiki');">Level creation HowTo</a>.</p></dd>
+				<dd><p>Have a look at the <a href="https://github.com/Neverball/neverball-docs/blob/master/README.md" onClick="javascript: pageTracker._trackPageview('/outgoing/neverwiki');">level creation page</a> of the wiki. You should start with the <a href="https://github.com/Neverball/neverball-docs/blob/master/How-To.md" onClick="javascript: pageTracker._trackPageview('/outgoing/neverwiki');">Level creation HowTo</a>.</p></dd>
 			<dt><q>What about adding mini-games just like in Super Monkey Ball?</q></dt>
-				<dd><p>This is not our intent for the Neverball development (<a href="http://www.nevercorner.net/forum/viewtopic.php?id=80">related forum thread</a>).</p></dd>
+				<dd><p>This is not our intent for the Neverball development (<a href="http://neverforum.com/fmpbo/viewtopic.php?id=80">related forum thread</a>).</p></dd>
 		</dl>
 		</div>
 <?php

@@ -28,7 +28,7 @@ include("includes/getdownload.php");
 				<dd><p><a href="neverball-1.5.3.dmg" title="Neverball for Mac OS X" onClick="javascript: pageTracker._trackPageview('/downloads/mac-1.5.3');" id="mac">neverball-1.5.3.dmg</a> (52.04 MB)<br>Neverball 1.6.0 is currently not available on Mac OS X. Give <a href="http://uppgarn.com/nuncabola/" title="Nuncabola" onClick="javascript: pageTracker._trackPageview('/downloads/nuncabola');">Nuncabola</a> a try!</p></dd>
 		</dl>
 		<h2>Custom Levels</h2>
-		<p>If you are looking for additional content for either Neverball or Neverputt, be sure to visit the <a href="http://forum.nevercorner.net/" onClick="javascript: pageTracker._trackPageview('/outgoing/neverforum');">Discussion Forum</a> to find custom levels as well as other content created by community members.</p>
+		<p>If you are looking for additional content for either Neverball or Neverputt, be sure to visit the <a href="http://neverforum.com" onClick="javascript: pageTracker._trackPageview('/outgoing/neverforum');">Discussion Forum</a> to find custom levels as well as other content created by community members.</p>
 		</div>
 <?php
 include("includes/footer.php");
