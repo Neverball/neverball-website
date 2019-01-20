@@ -14,6 +14,11 @@ include("includes/header.php");
 
 		<h2>News</h2>
 		
+		<h3>2019-01-18: New bundle pack</h3>
+		<p>Switchball has arrived! Download Switchball bundle pack on <a href="https://github.com/ersohnstyne/neverball-switchball-bundle-pack">GitHub</a>!</p>
+		<p>Import the structure templates in a few seconds. One for helicopters, special lamp line with switch and timer, teleporters and size, magnet transports, etc.</p>
+		<p>Upload the level file and share it to master branch (Messages will appear, once have been merged).</p>
+		
 		<h3>2017-01-24: Neverforum reopened</h3>
 		<p>After nearly 12 months of downtime, <a href="http://neverforum.com/">Neverforum</a> has been reopened.</p>
 		
