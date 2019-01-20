@@ -6,7 +6,6 @@
 N: Ersohn Styne (PennyGames)
 E: ersohn.styne@gmail.com
 W: https://plus.google.com/u/0/100996052552007986809
-D: Developer (Dev Destroyer)
 D: Linux build maintenance
 D: Switchball structure template
 
