@@ -3,6 +3,13 @@
 # website  (W),  PGP key  ID  and  fingerprint  (P), description  (D).
 # Please keep this list sorted alphabetically.
 
+N: Ersohn Styne (PennyGames)
+E: ersohn.styne@gmail.com
+W: https://plus.google.com/u/0/100996052552007986809
+D: Developer (Dev Destroyer)
+D: Linux build maintenance
+D: Switchball structure template
+
 N: Ben Anderson
 D: Mac OS X build maintenance and packaging
 D: Icons
