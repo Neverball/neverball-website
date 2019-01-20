@@ -16,7 +16,7 @@ include("includes/header.php");
 		
 		<h3>2019-01-18: New bundle pack</h3>
 		<p>Switchball has arrived! Download Switchball bundle pack on <a href="https://github.com/ersohnstyne/neverball-switchball-bundle-pack">GitHub</a>!</p>
-		<p>Import the structure templates in a few seconds. One for helicopters, special lamp line with switch and timer, teleporters and size, magnet transports, etc.</p>
+		<p>Import the structure templates in a few seconds. One for helicopters, bridges, intersections, special lamp line with switch and timer, teleporters and size, magnet transports, etc.</p>
 		<p>Upload and share the level file to the master base branch (Messages will appear, once have been merged).</p>
 		
 		<h3>2017-01-24: Neverforum reopened</h3>
@@ -31,7 +31,7 @@ include("includes/header.php");
 		<p>Long-time contributor Cheeseness has put together a <a href="images/neverball_poster_1.6.0.png">poster</a> and an <a href="https://www.youtube.com/watch?v=ZQ9VDabHGpA">introductory video</a> to celebrate the release. We also have a <a href="https://www.youtube.com/watch?v=bQqK2YuP2Tc">video on Oculus Rift support</a> from Robert Kooima, the lead developer of Neverball. Be sure to check them out!</p>
 
 		<h2>About</h2>
-		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part puzzle game, part action game, and entirely a test of skill.</p>
+		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part 3D-action-puzzle game, and entirely a test of skill.</p>
 		<p>Also found here is Neverputt, a hot-seat multiplayer miniature golf game, built on the physics and graphics engine of Neverball.</p>
 		<p>Neverball is known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A modern processor is recommended.</p>
 
