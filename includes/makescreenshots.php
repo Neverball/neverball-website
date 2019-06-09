@@ -1,6 +1,6 @@
 <?php
 if(!(basename($_SERVER["SCRIPT_NAME"]) === "makescreenshots.php")){
-	if(!function_exists(detect_ie)){
+	if(!function_exists('detect_ie')){
 		global $is_ie;
 		if(isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false)){
 			$is_ie = true;

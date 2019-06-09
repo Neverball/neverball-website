@@ -27,20 +27,16 @@ body{
 #navigation{
 	position: absolute;
 	top: 0px;
-	left:50%;
-	width:580px;
 	height: 70px;
+	width: 100%;
 	z-index:1;
-	margin-left:-290px;
 	text-align: center;
 }
 
 #primary{
-	position: absolute;
-	width: 100%;
+	display: inline-block;
 	margin: 0;
 	padding: 0;
-
 }
 
 #primary li{
@@ -62,7 +58,9 @@ body{
 	padding-left: 0;
 	padding-right: 0;
 	padding-bottom: 0;
-	background: url("../../images/neverstyle/tab.png") no-repeat bottom;
+	background-color: rgba(25, 25, 25, 0.5);
+	border-bottom-left-radius: 30px;
+	border-bottom-right-radius: 30px;
 	text-decoration: none;
 }
 
@@ -116,32 +114,8 @@ body{
 	position: relative;
 	margin: -70px 55px 0;
 	padding: 32px;
-	background-image: url("../../images/neverstyle/blacktrans.png");
-}
-
-#contents:before{
-	display: block;
-	height: 30px;
-	margin-top: -32px;
-	margin-right: -32px;
-	margin-left: -32px;
-	border: none;
-	background: transparent url("../../images/neverstyle/top-right.png") no-repeat right;
-	line-height: 0.1;
-	font-size: 1px;
-	content: url("../../images/neverstyle/top-left.png");
-}
-
-#contents:after{
-	display: block;
-	height: 30px;
-	margin-left: -32px;
-	margin-right: -32px;
-	margin-bottom: -32px;
-	background: transparent url("../../images/neverstyle/bottom-right.png") no-repeat right;
-	line-height: 0.1;
-	font-size: 1px;
-	content:  url("../../images/neverstyle/bottom-left.png");
+	background-color: rgba(25, 25, 25, 0.5);
+	border-radius: 30px;
 }
 
 #contents a{
@@ -160,7 +134,6 @@ body{
 
 #contents h2{
 	color: #FFAF00;
-	background-color: inherit;
 	font-size: large;
 	font-weight: bolder;
 }
@@ -175,21 +148,12 @@ body{
 	bottom: 0;
 	height: 50px;
 	line-height: 50px;
-	width: 100%;
-	background-image: url("../../images/neverstyle/blacktrans.png");
+	width: calc(100% - 110px);
+	margin-left: 55px;
+	background-color: rgba(25, 25, 25, 0.5);
 	text-align: center;
-}
-
-#footer:before{
-	display: block;
-	height: 50px;
-	border: none;
-	margin-bottom: -50px;
-	background: transparent url("../../images/neverstyle/footer-right.png") no-repeat right;
-	line-height: 0.1;
-	font-size: 1px;
-	content: url("../../images/neverstyle/footer-left.png");
-	text-align: left;
+	border-top-left-radius: 30px;
+	border-top-right-radius: 30px;
 }
 
 #footer img{
