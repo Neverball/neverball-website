@@ -13,6 +13,11 @@ include("includes/header.php");
 		<div id="contents">
 
 		<h2>News</h2>
+			
+		<h3>2022-05-07: Neverforum is unavailable</h3>
+		<p>After being in a half-broken state for the past year, the Neverforum is currently unavailable due to an expired domain and hosting. We're attempting to get in touch with site owner and Neverball community member vidski to resolve this.</p>
+			
+		<p>We have enabled <a href="https://github.com/Neverball/neverball/discussions">Neverball discussions</a> on Github as a secondary way of communcation. Feel free to join us!</p>
 		
 		<h3>2017-01-24: Neverforum reopened</h3>
 		<p>After nearly 12 months of downtime, <a href="http://neverforum.com/">Neverforum</a> has been reopened.</p>
