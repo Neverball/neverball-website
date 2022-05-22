@@ -8,10 +8,11 @@ $navArray = array(
 	'index.php' => 'Home',
 	'screenshots.php' => 'Screenshots',
 	'download.php' => 'Download',
-	'https://neverforum.com' => 'Forum',
+	//'https://neverforum.com' => 'Forum',
+	'https://discord.gg/bmBfHKZaQR' => 'Discord',
 	'https://github.com/Neverball' => 'Github',
-#	'faq.php' => 'FAQ',
-#	'changes.php' => 'Changes',
+	//'faq.php' => 'FAQ',
+	//'changes.php' => 'Changes',
 	'contributors.php' => 'Credits'
 );
 ?>
