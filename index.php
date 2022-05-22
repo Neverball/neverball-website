@@ -24,7 +24,7 @@ include("includes/header.php");
 		
 		<h3>2016-02-07: Nevercorner.net closing</h3>
 		<p><a href="http://nevercorner.net">Nevercorner.net</a>, the site that generously hosted the Neverforum, the Nevertable and the Neverwiki for over ten years, has shut down today. An effort is underway to provide a new place of discussion for the Neverball community.</p>
-		<p>In the mean time, see you on Reddit, Steam or Github (links below).</p>
+		<p>In the mean time, see you in other Neverball communities (links below).</p>
 		
 		<h3>2014-05-21: Neverball 1.6.0</h3>
 		<p>Neverball 1.6.0 is out now! Get it from the <a href="download.php">download page</a> and have a look at the <a href="release.php">release notes</a>.</p>
@@ -36,8 +36,8 @@ include("includes/header.php");
 		<p>Neverball is known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A modern processor is recommended.</p>
 
 		<h2>Community &amp; Contact</h2>
-		<p>Visit the <a href="http://neverforum.com/">Neverforum</a> to get in touch with other players and contributors.</p>
-		<p>We are also on <a href="https://www.reddit.com/r/neverball">Reddit</a>, <a href="https://github.com/Neverball">Github</a>, and <a href="https://steamcommunity.com/groups/neverball">Steam</a>.</p>
+		<p>Visit the <a href="https://discord.gg/bmBfHKZaQR">Nevercord</a> Discord server to get in touch with other players and contributors.</p>
+		<p>We are also on <a href="https://github.com/Neverball">Github</a> (be sure to check out the <a href="https://github.com/Neverball/neverball/discussions">discussions</a> section) and <a href="https://steamcommunity.com/groups/neverball">Steam</a>.</p>
 
 		<h2>Level Design</h2>
 		<p>Players interested in trying their hand at level creation are encouraged to read through the <a href="http://github.com/neverball/neverball-docs" onClick="javascript: pageTracker._trackPageview('/outgoing/documentation');">level design documentation</a>. Levels of sufficent quality may be included in the next version; authors will be credited in-game.</p>
