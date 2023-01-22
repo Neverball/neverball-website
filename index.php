@@ -36,7 +36,7 @@ include("includes/header.php");
 		<p>Neverball is known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A modern processor is recommended.</p>
 
 		<h2>Community &amp; Contact</h2>
-		<p>Visit the <a href="https://discord.gg/bmBfHKZaQR">Nevercord</a> Discord server to get in touch with other players and contributors.</p>
+		<p>Visit the community <a href="https://discord.gg/HhMfr4N6H6">Neverball Discord</a> server to get in touch with other players and designers.</p>
 		<p>We are also on <a href="https://github.com/Neverball">Github</a> (be sure to check out the <a href="https://github.com/Neverball/neverball/discussions">discussions</a> section) and <a href="https://steamcommunity.com/groups/neverball">Steam</a>.</p>
 
 		<h2>Level Design</h2>
