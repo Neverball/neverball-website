@@ -7,7 +7,7 @@ if(($dlSuffix == ".tar.gz" || $dlSuffix == ".zip" || $dlSuffix == "-setup.exe" |
 
 	//$whichServer = time() % 2;
 	$whichServer = 0;
-	$server0 = @fsockopen("icculus.org", 80, $errno, $errstr, 10);
+	$server0 = @fsockopen("icculus.org", 443, $errno, $errstr, 10);
 
 //      CaffeinatedContent is going offline (for now, shutting down webhost, planned move to CDN) -- Jammnrose 4/11/18
 // 	$server1 = @fsockopen("caffeinatedcontent.com", 80, $errno, $errstr, 10);
@@ -28,7 +28,7 @@ if(($dlSuffix == ".tar.gz" || $dlSuffix == ".zip" || $dlSuffix == "-setup.exe" |
 // 	@fclose($server1);
 	switch($whichServer){
 	case 0:
-		header('Location: http://icculus.org/neverball/'.$_GET["fileName"]);
+		header('Location: https://icculus.org/neverball/'.$_GET["fileName"]);
 		break;
 	case 1:
 		header('Location: http://caffeinatedcontent.com/neverball/files/releases/'.$_GET["fileName"]);
