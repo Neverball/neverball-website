@@ -11,7 +11,6 @@ $navArray = array(
 	//'https://neverforum.com' => 'Forum',
 	'https://discord.gg/HhMfr4N6H6' => 'Discord',
 	'https://github.com/Neverball' => 'Github',
-	//'faq.php' => 'FAQ',
 	//'changes.php' => 'Changes',
 	'contributors.php' => 'Credits'
 );
