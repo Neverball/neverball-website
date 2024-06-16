@@ -28,13 +28,3 @@ function detect_ie(){
 		echo "<link rel=\"stylesheet\" href=\"css/neverstyle/default.css\" type=\"text/css\" title=\"Neverstyle\">\n\t";
 		echo "<link rel=\"alternate stylesheet\" href=\"css/neverstyle-IE/default.css\" type=\"text/css\" title=\"IE Neverstyle\">\n";
 	}?>
-	<script type="text/javascript">
-		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-	</script>
-	<script type="text/javascript">
-		try{
-			var pageTracker = _gat._getTracker("UA-7244515-1");
-			pageTracker._trackPageview();
-		} catch(err) {}
-	</script>

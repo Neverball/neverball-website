@@ -40,7 +40,7 @@ include("includes/header.php");
 		<p>We are also on <a href="https://github.com/Neverball">Github</a> (be sure to check out the <a href="https://github.com/Neverball/neverball/discussions">discussions</a> section) and <a href="https://steamcommunity.com/groups/neverball">Steam</a>.</p>
 
 		<h2>Level Design</h2>
-		<p>Players interested in trying their hand at level creation are encouraged to read through the <a href="http://github.com/neverball/neverball-docs" onClick="javascript: pageTracker._trackPageview('/outgoing/documentation');">level design documentation</a>. Levels of sufficent quality may be included in the next version; authors will be credited in-game.</p>
+		<p>Players interested in trying their hand at level creation are encouraged to read through the <a href="http://github.com/neverball/neverball-docs">level design documentation</a>. Levels of sufficent quality may be included in the next version; authors will be credited in-game.</p>
 		</div>
 <?php
 include("includes/footer.php");
