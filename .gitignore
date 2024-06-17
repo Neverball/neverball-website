@@ -1,1 +1,3 @@
 /cache/*.php
+/docker-compose.yml
+/docker

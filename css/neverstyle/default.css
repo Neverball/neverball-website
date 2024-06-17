@@ -1,22 +1,26 @@
 @import url("../global.css");
 
 body{
-	background: #FF4949 url("../../images/neverstyle/background.png") repeat-x;
+	background:
+		no-repeat 0% 82px url("../../images/neverstyle/loops3.png"),
+		no-repeat 100% 82px url("../../images/neverstyle/loops4.png"),
+		no-repeat 0% calc(100% - 148px) url("../../images/neverstyle/wave1.png"),
+		no-repeat 100% calc(100% - 20px) url("../../images/neverstyle/wave4.png"),
+		repeat-x url("../../images/neverstyle/stars.png"),
+		#FF4949 repeat-x url("../../images/neverstyle/background.png");
+
 	color: #FFF;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
 }
+
 #banner{
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 256px;
-	padding: 0;
-	background: transparent url("../../images/neverstyle/stars.png");
+	margin-bottom: 10px;
 }
-#banner:after{
+#banner::after{
 	display: block;
-	margin-top: 76px;
 	text-align: center;
-	background: inherit;
 	content: url("../../images/neverstyle/heading.png");
 }
 
@@ -25,9 +29,8 @@ body{
 }
 
 #navigation{
-	position: absolute;
-	top: 0px;
 	height: 70px;
+	margin-bottom: 6px;
 	width: 100%;
 	z-index:1;
 	text-align: center;
@@ -79,40 +82,16 @@ body{
 	padding-top: 20px;
 }
 
-#primary li a.current:before{
+#primary li a.current::before{
 	display:block;
 	height: 18px;
 	margin-top: -8px;
 	content: url("../../images/neverstyle/widget.png");
 }
 
-#main{
-	position: absolute;
-	top: 0;
-	width: 100%;
-	min-height:100%;
-	padding: 0;
-}
-
-#main:before{
-	display: block;
-	height: 128px;
-	margin-top: 82px;
-	background: transparent url("../../images/neverstyle/loops4.png") scroll no-repeat top right;
-	content: url("../../images/neverstyle/loops3.png");
-}
-
-#main:after{
-	display: block;
-	height: 256px;
-	margin-top: -180px;
-	margin-bottom: 20px;
-	background: transparent url("../../images/neverstyle/wave4.png") scroll no-repeat top right;
-	content: url("../../images/neverstyle/wave1.png");
-}
 #contents{
 	position: relative;
-	margin: -70px 55px 0;
+	margin: 0 55px 46px;
 	padding: 32px;
 	background-color: rgba(25, 25, 25, 0.5);
 	border-radius: 30px;
@@ -144,8 +123,6 @@ body{
 }
 
 #footer{
-	position: absolute;
-	bottom: 0;
 	height: 50px;
 	line-height: 50px;
 	width: calc(100% - 110px);
@@ -154,6 +131,7 @@ body{
 	text-align: center;
 	border-top-left-radius: 30px;
 	border-top-right-radius: 30px;
+	margin-top: auto;
 }
 
 #footer img{
