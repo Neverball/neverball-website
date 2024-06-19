@@ -7,7 +7,7 @@ body{
 		no-repeat 0% calc(100% - 148px) url("../../images/neverstyle/wave1.png"),
 		no-repeat 100% calc(100% - 20px) url("../../images/neverstyle/wave4.png"),
 		repeat-x url("../../images/neverstyle/stars.png"),
-		#FF4949 repeat-x url("../../images/neverstyle/background.png");
+		#ff4949 linear-gradient(to bottom, #318c31, #fff 210px, #ff4949 512px);
 
 	color: #FFF;
 	min-height: 100vh;
