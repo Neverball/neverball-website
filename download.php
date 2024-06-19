@@ -7,7 +7,7 @@ include("includes/getdownload.php");
 <body>
 	<?php include("includes/nav.php"); ?>
 
-	<div id="banner"><h1>Neverball</h1></div>
+	<h1 id="banner" class="neverball-text">Neverball</h1>
 
 	<div id="main">
 		<div id="contents">
