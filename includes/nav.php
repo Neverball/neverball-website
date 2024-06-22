@@ -39,7 +39,7 @@ $links = [
 	<ul id="primary">
 		<?php
 		foreach ($links as $i => $link) {
-			printf("<li style=\"--index: %d\"><a href=\"%s\" target=\"%s\" class=\"neverball-button %s\">%s</a></li>", $i, $link['url'], $link['external'] ? '_blank' : '', $link['url'] == $filename ? 'current' : '', $link['title']);
+			printf("<li style=\"--index: %d\"><a href=\"%s\" target=\"%s\" class=\"neverball-button %s\">%s</a></li>", $i, $link['url'], $link['external'] ? '_blank' : '', $link['url'] == $filename || ($link['url'] == '/' && $filename == 'index.php') ? 'current' : '', $link['title']);
 		}
 		?>
 	</ul>
