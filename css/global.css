@@ -35,6 +35,12 @@ dl dt { font-weight: bold; }
 	margin: 13px auto 0;
 	text-align: center;
 	width: 700px;
+	max-width: 100%;
+}
+.fullimg img {
+	display: block;
+	max-width: 100%;
+	height: auto;
 }
 .style-imgnav { margin-bottom: -15px; padding-top: 15px; }
 .invalid-link { color: #666 }

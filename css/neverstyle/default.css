@@ -10,29 +10,62 @@ body{
 		#ff4949 linear-gradient(to bottom, #318c31, #fff 210px, #ff4949 512px);
 
 	color: #FFF;
-	min-height: 100vh;
+	min-height: 100vh; /* For backward compat. */
+	min-height: 100dvh; /* For dynamic browser bars. */
 	display: flex;
 	flex-direction: column;
 }
 
 #banner{
-	margin-bottom: 10px;
-	text-align: center;
-	font-size: 62px;
+	font-size: 32px;
 }
 
 #navigation{
-	height: 70px;
-	margin-bottom: 6px;
+	--item-timescale: 0.02s;
+	--count: 6;
+
+	display: flex;
 	width: 100%;
-	z-index:1;
-	text-align: center;
+	max-height: 0;
+	overflow: hidden;
+
+	/* From expanded to collapsed. */
+
+	/* Delay collapse transition until start time of last item. */
+
+	transition: 0.2s linear calc((var(--count) - 1) * var(--item-timescale)) max-height;
+	
+	li {
+		/* Style attribute overrides this. */
+		--index: 0;
+
+		/* Staggered animation. */
+		transition: 0.2s ease-out calc(var(--index) * var(--item-timescale)) transform;
+
+		transform: scale(0);
+	}
+}
+
+#menu-toggle:checked ~ header #navigation {
+	/* From collapsed to expanded. */
+
+	transition: 0.2s linear 0s max-height;
+
+	max-height: 200px; /* height at 320w */
+
+	li {
+		transform: scale(1);
+	}
 }
 
 #primary{
-	display: inline-block;
-	margin: 0;
-	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	margin: 0 auto;
+	padding: 16px 16px 0;
 }
 
 #primary li{
@@ -47,44 +80,34 @@ body{
 
 #primary li a, #primary li a.current {
 	display: block;
-	width: 116px;
-	height: 50px;
-	float: left;
-	margin: 0;
-	padding-left: 0;
-	padding-right: 0;
-	padding-bottom: 0;
-	background-color: rgba(25, 25, 25, 0.5);
-	border-bottom-left-radius: 30px;
-	border-bottom-right-radius: 30px;
 	text-decoration: none;
 }
 
 #primary li a{
-	padding-top: 10px;
 	color: #FFF;
 }
 
 #primary li a.current {
 	padding-top: 20px;
 	color: #FFAF00;
-	cursor:default;
-}
-
-#primary li a:hover{
-	padding-top: 20px;
 }
 
 #primary li a.current::before{
 	display:block;
 	height: 18px;
-	margin-top: -8px;
 	content: url("../../images/neverstyle/widget.png");
 }
 
+#main {
+	padding: 0 16px;
+}
+
 #contents{
+	margin: 0 auto 48px;
+	width: 100%;
+	box-sizing: border-box;
+	max-width: 832px;
 	position: relative;
-	margin: 0 55px 46px;
 	padding: 32px;
 	background-color: rgba(25, 25, 25, 0.5);
 	border-radius: 30px;
@@ -116,15 +139,20 @@ body{
 }
 
 #footer{
-	height: 50px;
-	line-height: 50px;
-	width: calc(100% - 110px);
-	margin-left: 55px;
+	padding: 0 16px;
+	margin-top: auto;
+}
+
+#footer > div {
+	width: 100%;
+	max-width: 832px;
+	margin: 0 auto;
 	background-color: rgba(25, 25, 25, 0.5);
 	text-align: center;
 	border-top-left-radius: 30px;
 	border-top-right-radius: 30px;
-	margin-top: auto;
+	padding: 0 32px;
+	box-sizing: border-box;
 }
 
 #footer img{
@@ -176,7 +204,8 @@ code,samp{
 	float: left;
 }
 
-.none{
+.none,
+.hidden {
 	display: none;
 }
 
@@ -189,4 +218,87 @@ code,samp{
 	background-clip: text;
 	-webkit-background-clip: text;
 	color: rgba(255, 255, 255, 0);
+}
+
+.neverball-button {
+	background: rgba(25, 25, 25, 0.5);
+	outline: none;
+	border: none;
+	color: #fff;
+	border-radius: 1rem;
+	padding: 1rem;
+	font-weight: bold;
+	font-size: 14px;
+	text-shadow: 0.08em 0.08em rgba(0, 0, 0, 0.5);
+	font-family: "DejaVu Sans", Verdana, sans-serif;
+	display: inline-block;
+}
+
+.neverball-button:disabled {
+	opacity: 0.3;
+	cursor: not-allowed;
+}
+
+.neverball-button:not(:disabled):hover,
+.neverball-button:focus {
+	cursor: pointer;
+	background: rgba(255, 178, 76, 0.73);
+	transition: background 0.1s ease-in-out;
+	animation: pulse 0.2s;
+	animation-timing-function: ease-in-out;
+}
+
+header {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 8px;
+	margin-bottom: 8px;
+}
+
+.neverball-box {
+	background-color: rgba(25, 25, 25, 0.5);
+	padding: 10px;
+	border-radius: 1rem;
+}
+
+@keyframes pulse {
+	50% {
+	  transform: scale(1.2);
+	}
+  }
+
+.menu-toggle {
+	margin-left: auto;
+}
+
+@media (min-width: 768px) {
+	.menu-toggle {
+		display: none;
+	}
+
+	#banner {
+		font-size: 62px;
+	}
+
+	#navigation {
+		max-height: none;
+
+		li {
+			transform: scale(1);
+		}
+	}
+
+	#banner-wrapper {
+		order: 1;
+		text-align: center;
+		width: 100%;
+		background-color: transparent;
+		padding: 0;
+	}
+
+	header {
+		margin-bottom: 0;
+	}
 }

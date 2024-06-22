@@ -1,31 +1,46 @@
 <?php 
 $filename = basename($_SERVER['PHP_SELF']);
-$class = 'class="current" ';
 
-// Be sure to recompute #navigation width and offset in default.css
-// when changing the number of links in this list.
-$navArray = array(
-	'index.php' => 'Home',
-	'screenshots.php' => 'Screenshots',
-	'download.php' => 'Download',
-	//'https://neverforum.com' => 'Forum',
-	'https://discord.gg/HhMfr4N6H6' => 'Discord',
-	'https://github.com/Neverball' => 'Github',
-	//'changes.php' => 'Changes',
-	'contributors.php' => 'Credits'
-);
+$links = [
+	[
+		'url' => 'index.php',
+		'external' => false,
+		'title' => 'Home',
+	],
+	[
+		'url' => 'screenshots.php',
+		'external' => false,
+		'title' => 'Screenshots',
+	],
+	[
+		'url' => 'download.php',
+		'external' => false,
+		'title' => 'Download',
+	],
+	[
+		'url' => 'https://discord.gg/HhMfr4N6H6',
+		'external' => true,
+		'title' => 'Discord',
+	],
+	[
+		'url' => 'https://github.com/Neverball',
+		'external' => true,
+		'title' => 'Github',
+	],
+	[
+		'url' => 'contributors.php',
+		'external' => false,
+		'title' => 'Credits'
+	],
+];
 ?>
 
-	<div id="navigation">
-		<ul id="primary">
-
-<?php
-foreach ($navArray as $url => $title) {
-	echo '			<li><a ';
-	echo ($url == $filename ? $class : '');
-	echo "href=\"{$url}\">{$title}</a></li>\n";
-}
-?>
-
-		</ul>
-	</div>
+<nav id="navigation" style="--count: <?php echo count($links); ?>;">
+	<ul id="primary">
+		<?php
+		foreach ($links as $i => $link) {
+			printf("<li style=\"--index: %d\"><a href=\"%s\" target=\"%s\" class=\"neverball-button %s\">%s</a></li>", $i, $link['url'], $link['external'] ? '_blank' : '', $link['url'] == $filename ? 'current' : '', $link['title']);
+		}
+		?>
+	</ul>
+</nav>
