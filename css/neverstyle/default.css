@@ -16,6 +16,10 @@ body{
 	flex-direction: column;
 }
 
+#banner-wrapper a {
+	text-decoration: none;
+}
+
 #banner{
 	font-size: 32px;
 }

@@ -9,14 +9,16 @@
 	<title><?php echo $title; ?></title>
 
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="css/neverstyle/default.css" type="text/css" title="Neverstyle">
+	<link rel="stylesheet" href="css/neverstyle/default.css?v=3" type="text/css" title="Neverstyle">
 </head>
 <body>
 	<input type="checkbox" id="menu-toggle" class="hidden" autocomplete="off">
 
 	<header>
 		<div class="neverball-box" id="banner-wrapper">
-			<h1 id="banner" class="neverball-text">Neverball</h1>
+			<a href="/">
+				<h1 id="banner" class="neverball-text">Neverball</h1>
+			</a>
 		</div>
 
 		<div class="menu-toggle">

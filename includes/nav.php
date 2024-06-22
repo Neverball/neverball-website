@@ -3,7 +3,7 @@ $filename = basename($_SERVER['PHP_SELF']);
 
 $links = [
 	[
-		'url' => 'index.php',
+		'url' => '/',
 		'external' => false,
 		'title' => 'Home',
 	],
