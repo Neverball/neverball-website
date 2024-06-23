@@ -38,16 +38,17 @@ body{
 	/* Delay collapse transition until start time of last item. */
 
 	transition: 0.2s linear calc((var(--count) - 1) * var(--item-timescale)) max-height;
-	
-	li {
-		/* Style attribute overrides this. */
-		--index: 0;
 
-		/* Staggered animation. */
-		transition: 0.2s ease-out calc(var(--index) * var(--item-timescale)) transform;
+}
 
-		transform: scale(0);
-	}
+#navigation li {
+	/* Style attribute overrides this. */
+	--index: 0;
+
+	/* Staggered animation. */
+	transition: 0.2s ease-out calc(var(--index) * var(--item-timescale)) transform;
+
+	transform: scale(0);
 }
 
 #menu-toggle:checked ~ header #navigation {
@@ -56,10 +57,10 @@ body{
 	transition: 0.2s linear 0s max-height;
 
 	max-height: 200px; /* height at 320w */
+}
 
-	li {
-		transform: scale(1);
-	}
+#menu-toggle:checked ~ header #navigation  li {
+	transform: scale(1);
 }
 
 #primary{
