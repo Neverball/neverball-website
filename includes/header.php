@@ -9,7 +9,7 @@
 	<title><?php echo $title; ?></title>
 
 	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-	<link rel="stylesheet" href="css/neverstyle/default.css?v=3" type="text/css" title="Neverstyle">
+	<link rel="stylesheet" href="css/neverstyle/default.css?v=v" type="text/css" title="Neverstyle">
 </head>
 <body>
 	<input type="checkbox" id="menu-toggle" class="hidden" autocomplete="off">
