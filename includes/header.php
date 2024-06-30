@@ -16,9 +16,11 @@
 
 	<header>
 		<div class="neverball-box" id="banner-wrapper">
-			<a href="/">
-				<h1 id="banner" class="neverball-text">Neverball</h1>
-			</a>
+			<h1 id="banner">
+				<a href="/" class="neverball-text">
+					Neverball
+				</a>
+			</h1>
 		</div>
 
 		<div class="menu-toggle">
