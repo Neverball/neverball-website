@@ -1,11 +1,5 @@
 User-Agent: *
-Disallow: /.htaccess
-Disallow: /AUTHORS
-Disallow: /CHANGES
-Disallow: /css/
-Disallow: /images/
-Disallow: /images/neverstyle/
-Disallow: /staging/
-Allow: /images/shots/
+Disallow: /cache/
+Disallow: /README.md
+Disallow: /docs/
 Allow: /
-
