@@ -1,5 +1,5 @@
 <?php 
-$filename = basename($_SERVER['PHP_SELF']);
+global $current_route;
 
 $links = [
 	[
@@ -8,12 +8,12 @@ $links = [
 		'title' => 'Home',
 	],
 	[
-		'url' => 'screenshots.php',
+		'url' => '/screenshots',
 		'external' => false,
 		'title' => 'Screenshots',
 	],
 	[
-		'url' => 'download.php',
+		'url' => '/download',
 		'external' => false,
 		'title' => 'Download',
 	],
@@ -28,7 +28,7 @@ $links = [
 		'title' => 'Github',
 	],
 	[
-		'url' => 'contributors.php',
+		'url' => '/credits',
 		'external' => false,
 		'title' => 'Credits'
 	],
@@ -39,7 +39,7 @@ $links = [
 	<ul id="primary">
 		<?php
 		foreach ($links as $i => $link) {
-			printf("<li style=\"--index: %d\"><a href=\"%s\" target=\"%s\" class=\"neverball-button %s\">%s</a></li>", $i, $link['url'], $link['external'] ? '_blank' : '', $link['url'] == $filename || ($link['url'] == '/' && $filename == 'index.php') ? 'current' : '', $link['title']);
+			printf("<li style=\"--index: %d\"><a href=\"%s\" target=\"%s\" class=\"neverball-button %s\">%s</a></li>", $i, $link['url'], $link['external'] ? '_blank' : '', $link['url'] == ('/' . $current_route) ? 'current' : '', $link['title']);
 		}
 		?>
 	</ul>

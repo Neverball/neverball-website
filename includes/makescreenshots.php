@@ -119,7 +119,7 @@ function writethumbnails($masterarray, $invalid){
 			mkdir(substr($masterarray[$i][1], 0, 36), 0777);
 			makethumbnail($masterarray[$i][1], $masterarray[$i][2]);
 		}
-		echo "<a href=\"screenshots.php".$masterarray[$i][0]."\"><img src=\"".$masterarray[$i][1]."\" alt=\"".$masterarray[$i][5]."\"></a>\n\t\t";
+		echo "<a href=\"/screenshots".$masterarray[$i][0]."\"><img src=\"".$masterarray[$i][1]."\" alt=\"".$masterarray[$i][5]."\"></a>\n\t\t";
 	}
 	echo "</div>\n\t\t<br>\n\t\t";
 }
@@ -167,22 +167,22 @@ function writefull($masterarray){
 		if($is_ie){
 			echo "<div class=\"style-imgnav\">\n\t\t";
 			if($previmg != ""){
-				echo "<div class=\"prev\"><a href=\"screenshots.php".$previmg."\">Previous Image</a></div>\n\t\t";
+				echo "<div class=\"prev\"><a href=\"/screenshots".$previmg."\">Previous Image</a></div>\n\t\t";
 			}else echo "<div class=\"prevd\"><span class=\"invalid-link\">Previous Image</span></div>\n\t\t";
-			echo "<div class=\"back\"><a href=\"screenshots.php\">Back to thumbnails</a></div>";
+			echo "<div class=\"back\"><a href=\"/screenshots\">Back to thumbnails</a></div>";
 			if($nextimg != ""){
-				echo "\n\t\t<div class=\"next\"><a href=\"screenshots.php".$nextimg."\">Next Image</a></div>";
+				echo "\n\t\t<div class=\"next\"><a href=\"/screenshots".$nextimg."\">Next Image</a></div>";
 			}else echo "\n\t\t<div class=\"nextd\"><span class=\"invalid-link\">Next Image</span></div>";
 			echo "\n\t\t</div><br>\n\t\t<br>\n\t\t";
 		}else{
 			echo "<div class=\"shot\">\n\t\t";
 			echo "<div class=\"controls\">\n\t\t\t";
 			if($previmg != ""){
-				echo "<a class=\"previous\" href=\"screenshots.php".$previmg."\"><span>Previous</span></a>\n\t\t\t";
+				echo "<a class=\"previous\" href=\"/screenshots".$previmg."\"><span>Previous</span></a>\n\t\t\t";
 			}
-			echo "<a class=\"thumb\" href=\"screenshots.php\"><span>Back to thumbnails</span></a>\n\t\t\t";
+			echo "<a class=\"thumb\" href=\"/screenshots\"><span>Back to thumbnails</span></a>\n\t\t\t";
 			if($nextimg != ""){
-				echo "<a class=\"next\" href=\"screenshots.php".$nextimg."\"><span>Next</span></a>\n\t\t";
+				echo "<a class=\"next\" href=\"/screenshots".$nextimg."\"><span>Next</span></a>\n\t\t";
 			}
 			echo "</div>\n\t\t";
 		}
@@ -198,11 +198,11 @@ function writefull($masterarray){
 		if($is_ie){
 			echo "<div class=\"style-imgnav\">\n\t\t";
 			if($previmg != ""){
-				echo "<div class=\"prev\"><a href=\"screenshots.php".$previmg."\">Previous Image</a></div>\n\t\t";
+				echo "<div class=\"prev\"><a href=\"/screenshots".$previmg."\">Previous Image</a></div>\n\t\t";
 			}else echo "<div class=\"prevd\"><span class=\"invalid-link\">Previous Image</span></div>\n\t\t";
-			echo "<div class=\"back\"><a href=\"screenshots.php\">Back to thumbnails</a></div>";
+			echo "<div class=\"back\"><a href=\"/screenshots\">Back to thumbnails</a></div>";
 			if($nextimg != ""){
-				echo "\n\t\t<div class=\"next\"><a href=\"screenshots.php".$nextimg."\">Next Image</a></div>";
+				echo "\n\t\t<div class=\"next\"><a href=\"/screenshots".$nextimg."\">Next Image</a></div>";
 			}else echo "\n\t\t<div class=\"nextd\"><span class=\"invalid-link\">Next Image</span></div>";
 			echo "\n\t\t</div><br>\n\t\t";
 		}

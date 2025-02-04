@@ -1,7 +1,7 @@
 <?php
 require("includes/cache.php");
 
-$title = "Neverball - Release Notes";
+$title = "Release Notes | Neverball";
 include("includes/header.php");
 ?>
 <div id="main">

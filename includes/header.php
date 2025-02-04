@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" href="/images/favicon-modern.svg">
+	<?php if (empty($_GET)): ?><link rel="canonical" href="<?php echo BASE_URL . ($current_route ? '/' . $current_route : ''); ?>"><?php endif; ?>
 
 	<title><?php echo $title; ?></title>
 

@@ -1,5 +1,5 @@
 <?php
-$title = "Neverball - Download";
+$title = "Download | Neverball";
 include("includes/header.php");
 ?>
 
