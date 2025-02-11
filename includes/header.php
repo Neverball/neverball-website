@@ -1,3 +1,10 @@
+<?php
+global $current_route;
+
+$canonical_query = http_build_query(array_intersect_key($_GET, array_flip(['id', 'set'])));
+$canonical_link = BASE_URL . ($current_route ? '/' . $current_route : '') . ($canonical_query ? '?' . $canonical_query : '');
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +12,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<link rel="icon" href="/images/favicon-modern.svg">
-	<?php if (empty($_GET)): ?><link rel="canonical" href="<?php echo BASE_URL . ($current_route ? '/' . $current_route : ''); ?>"><?php endif; ?>
+	<link rel="canonical" href="<?php echo $canonical_link; ?>">
 
 	<title><?php echo $title; ?></title>
 
