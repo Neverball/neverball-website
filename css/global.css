@@ -1,5 +1,17 @@
 @import url("reset.css");
-html{ overflow: auto; }
+
+:root {
+	font-size: 16px;
+}
+
+p img {
+	max-width: 100%;
+	height: auto;
+}
+
+html {
+	overflow: auto;
+}
 body, div, td, th, h2, h3, h4 { /* redundant rules for bad browsers  */
 	font-family: arial, verdana, sans-serif;
 	font-size: small;
@@ -20,6 +32,12 @@ h2 {
 	font-size: 140%;
 }
 h3 { font-size: 120%; padding: 0 0 4px; }
+h3 time {
+	font-size: 0.8rem;
+	display: block;
+	font-weight: 300;
+	margin-top: 0.7rem;
+}
 dl { padding: 10px 0 0; }
 dl dt { font-weight: bold; }
 .add-colons dt:after { content: ":"; }
