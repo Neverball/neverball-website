@@ -1,3 +1,10 @@
 /cache/*.php
 /docker-compose.yml
 /docker
+/vendor
+/node_modules
+/uploads/*
+!/uploads/.htaccess
+/.env
+/dist/
+/.vite

@@ -1,0 +1,7 @@
+Options -Indexes
+<FilesMatch "\.zip$">
+    Allow from all
+</FilesMatch>
+<FilesMatch "^(?!.*\.zip$)">
+    Deny from all
+</FilesMatch>

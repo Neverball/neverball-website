@@ -1,0 +1,12 @@
+{
+  "require": {
+    "vlucas/phpdotenv": "^5.0",
+    "nelexa/zip": "^4.0",
+    "mindplay/php-vite": "^1.1"
+  },
+  "config": {
+    "platform": {
+      "php": "8.2.0"
+    }
+  }
+}
