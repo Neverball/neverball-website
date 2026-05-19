@@ -1,11 +1,13 @@
 <?php
 
+namespace Neverball;
+
 defined('IN_APP') || exit;
 
 class AddonSubmitter
 {
     private const MAX_ZIP_SIZE = 20 * 1024 * 1024; // 20 MB
-    private const MAX_FILE_COUNT = 500;
+    private const MAX_FILE_COUNT = 4096;
 
     private string $uploadDir;
 
@@ -27,16 +29,18 @@ class AddonSubmitter
         $this->validateTextFields();
 
         $tmpPath = $this->validateUpload();
+        $this->checkDuplicate($tmpPath);
         $zip     = $this->extractZip($tmpPath);
 
-        $storagePath = $this->storeZip($tmpPath, $zip['id']);
+        $storagePath   = $this->storeZip($tmpPath, $zip['id']);
+        $approvalToken = $this->generateApprovalToken($zip, $storagePath);
 
-        $this->notifyAdmin($zip, $storagePath);
+        $this->notifyAdmin($zip, $storagePath, $approvalToken);
 
         $this->jsonSuccess(['message' => 'Submission received. Thank you!']);
     }
 
-    private function notifyAdmin(array $zip, string $storagePath): void
+    private function notifyAdmin(array $zip, string $storagePath, string $approvalToken): void
     {
         $to = $_ENV['NOTIFY_EMAIL'] ?? null;
         if (!$to) {
@@ -49,6 +53,7 @@ class AddonSubmitter
 
         $fullSubject = 'New Neverball Addon Submission: ' . $zip['addonName'];
         $url         = BASE_URL . '/uploads/' . basename($storagePath);
+        $approveUrl  = BASE_URL . '/addon-tool/approve?token=' . $approvalToken;
 
         $body = "A new addon has been submitted.\n\n"
             . "Submitter Name: $name\n"
@@ -56,10 +61,13 @@ class AddonSubmitter
             . "Addon Name: " . $zip['addonName'] . "\n"
             . "ID: " . $zip['id'] . "\n\n"
             . "Message:\n$message\n\n"
-            . "Download URL: $url\n";
+            . "Download URL: $url\n\n"
+            . "--- Open pull request ---\n"
+            . "$approveUrl\n";
 
         $from = $_ENV['NOTIFY_FROM'] ?? 'neverball-noreply@snth.net';
-        mail($to, $fullSubject, $body, "From: $from");
+        $headers = "From: $from\r\nContent-Type: text/plain; charset=UTF-8";
+        mail($to, '=?UTF-8?B?' . base64_encode($fullSubject) . '?=', $body, $headers);
     }
 
 
@@ -125,7 +133,7 @@ class AddonSubmitter
             $this->jsonError('File too large. Maximum size is 20 MB.');
         }
 
-        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
         $mime  = $finfo->file($file['tmp_name']);
 
         if (!in_array($mime, ['application/zip', 'application/x-zip-compressed', 'application/octet-stream'], true)) {
@@ -178,27 +186,38 @@ class AddonSubmitter
             $addonName = implode(', ', $addonNames);
 
             // Extract all files, guarding against path traversal
-            $files = [];
-
             foreach ($zipFile->getListFiles() as $name) {
                 if (str_contains($name, '..') || str_starts_with($name, '/') || str_starts_with($name, '\\')) {
                     $zipFile->close();
                     $this->jsonError('ZIP contains invalid file paths.');
                 }
-
-                if ($zipFile->getEntry($name)->isDirectory()) {
-                    continue; // skip directory entries
-                }
-
-                $files[$name] = base64_encode($zipFile->getEntryContents($name));
             }
 
             $zipFile->close();
 
-            return compact('files', 'id', 'addonName');
+            return compact('id', 'addonName');
         } catch (\Nelexa\Zip\Exception\ZipException $e) {
             error_log("neverball-addon-tool: ZIP error " . $e->getMessage());
             $this->jsonError('Could not open ZIP file.');
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Duplicate detection
+    // -------------------------------------------------------------------------
+
+    private function hashDir(): string
+    {
+        return $this->uploadDir . '/.hashes';
+    }
+
+    private function checkDuplicate(string $tmpPath): void
+    {
+        $hash    = hash_file('sha256', $tmpPath);
+        $hashDir = $this->hashDir();
+
+        if (is_file($hashDir . '/' . $hash)) {
+            $this->jsonError('This file has already been submitted.');
         }
     }
 
@@ -218,10 +237,71 @@ class AddonSubmitter
         $dest         = $this->uploadDir . '/' . $filename;
 
         if (!copy($tmpPath, $dest)) {
-            throw new RuntimeException('Failed to store ZIP.');
+            throw new \RuntimeException('Failed to store ZIP.');
         }
 
+        // Record hash to prevent duplicate submissions
+        $hashDir = $this->hashDir();
+        if (!is_dir($hashDir)) {
+            mkdir($hashDir, 0755, true);
+        }
+        file_put_contents($hashDir . '/' . hash_file('sha256', $tmpPath), '');
+
         return $dest;
+    }
+
+    // -------------------------------------------------------------------------
+    // Approval token
+    // -------------------------------------------------------------------------
+
+    public function generateApprovalToken(array $zip, string $storagePath): string
+    {
+        $tokenDir = $this->uploadDir . '/.tokens';
+        if (!is_dir($tokenDir)) {
+            mkdir($tokenDir, 0755, true);
+        }
+
+        $token = bin2hex(random_bytes(16));
+        $data  = json_encode([
+            'zip'       => basename($storagePath),
+            'id'        => $zip['id'],
+            'addonName' => $zip['addonName'],
+        ]);
+        file_put_contents($tokenDir . '/' . $token, $data);
+
+        return $token;
+    }
+
+    public static function peekToken(string $uploadDir, string $token): ?array
+    {
+        if (!preg_match('/^[0-9a-f]{32}$/', $token)) {
+            return null;
+        }
+
+        $path = $uploadDir . '/.tokens/' . $token;
+        if (!is_file($path)) {
+            return null;
+        }
+
+        $data = json_decode(file_get_contents($path), true);
+        return $data ?: null;
+    }
+
+    public static function consumeToken(string $uploadDir, string $token): ?array
+    {
+        if (!preg_match('/^[0-9a-f]{32}$/', $token)) {
+            return null;
+        }
+
+        $path = $uploadDir . '/.tokens/' . $token;
+        if (!is_file($path)) {
+            return null;
+        }
+
+        $data = json_decode(file_get_contents($path), true);
+        unlink($path); // one-time use
+
+        return $data ?: null;
     }
 
 
@@ -248,6 +328,118 @@ class AddonSubmitter
 // Route dispatch
 // ---------------------------------------------------------------------------
 
+if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+    $token = $_GET['token'];
+    $data  = AddonSubmitter::peekToken(BASE_DIR . '/uploads', $token);
+
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addon Approval – Neverball</title>
+    <link rel="icon" href="/images/favicon-modern.svg">
+    ' . $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css . '
+</head>
+<body class="min-h-screen bg-orange-50 text-gray-900 font-sans">
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-orange-600 mb-6">Addon Approval</h1>';
+
+    if ($data) {
+        echo '<div class="bg-white p-6 rounded-lg shadow-sm border border-orange-100">';
+        echo '<p class="text-base text-gray-700 mb-6">Are you sure you want to approve the addon <strong>' . htmlspecialchars($data['addonName']) . '</strong>?</p>';
+        echo '<form method="POST" action="?token=' . htmlspecialchars($token) . '">';
+        echo '<button type="submit" class="px-6 py-3 rounded-md bg-orange-500 text-white text-base font-semibold hover:bg-orange-600 transition-colors">Approve Addon</button>';
+        echo '</form>';
+        echo '</div>';
+    } else {
+        echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
+        echo '<span class="font-medium">Error:</span> Invalid or expired approval link.';
+        echo '</div>';
+    }
+
+    echo '</div></body></html>';
+    exit;
+}
+
+if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    $token = $_GET['token'];
+    $data  = AddonSubmitter::consumeToken(BASE_DIR . '/uploads', $token);
+
+    $ok  = false;
+    $msg = 'Invalid or expired approval link.';
+
+    if ($data) {
+        $repo  = $_ENV['GITHUB_PACKAGES_REPO'] ?? null;
+        $pat   = $_ENV['GITHUB_DISPATCH_TOKEN'] ?? null;
+
+        if (!$repo || !$pat) {
+            $msg = 'GitHub dispatch not configured on this server.';
+        } else {
+            $payload = json_encode([
+                'event_type'     => 'addon-submission',
+                'client_payload' => [
+                    'zip_url'    => BASE_URL . '/uploads/' . $data['zip'],
+                    'assets_url' => BASE_URL . '/neverball-assets.json',
+                    'addon_id'   => $data['id'],
+                    'addon_name' => $data['addonName'],
+                ],
+            ]);
+
+            $ch = curl_init("https://api.github.com/repos/$repo/dispatches");
+            curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $payload,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Accept: application/vnd.github+json',
+                    'Authorization: Bearer ' . $pat,
+                    'Content-Type: application/json',
+                    'User-Agent: neverball-website',
+                ],
+            ]);
+            curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
+
+            if ($httpCode === 204) {
+                $ok  = true;
+                $msg = 'Pull request workflow triggered for <strong>' . htmlspecialchars($data['addonName']) . '</strong>. Check GitHub Actions for progress.';
+            } else {
+                $msg = 'GitHub API returned HTTP ' . $httpCode . '. Check server configuration.';
+            }
+        }
+    }
+
+    header('Content-Type: text/html; charset=UTF-8');
+    echo '<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Addon Approval – Neverball</title>
+    <link rel="icon" href="/images/favicon-modern.svg">
+    ' . $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css . '
+</head>
+<body class="min-h-screen bg-orange-50 text-gray-900 font-sans">
+<div class="max-w-2xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold text-orange-600 mb-6">Addon Approval</h1>';
+
+    if ($ok) {
+        echo '<div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">';
+        echo '<span class="font-medium">Success:</span> ' . $msg;
+        echo '</div>';
+    } else {
+        echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
+        echo '<span class="font-medium">Error:</span> ' . $msg;
+        echo '</div>';
+    }
+
+    echo '</div></body></html>';
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header('Content-Type: application/json');
     // Catch any unhandled errors and return JSON instead of raw PHP output
@@ -263,8 +455,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 
     try {
-        (new AddonSubmitter())->handlePost();
-    } catch (Throwable $e) {
+        (new \Neverball\AddonSubmitter())->handlePost();
+    } catch (\Throwable $e) {
         error_log("neverball-addon-tool: Exception " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
         echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
     }
@@ -282,17 +474,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="/images/favicon-modern.svg">
     <?= $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css ?>
 </head>
-<body class="min-h-screen bg-slate-900 text-slate-100 font-sans">
+<body class="min-h-screen bg-orange-50 text-gray-900 font-sans">
 <div class="max-w-2xl mx-auto px-4 py-12">
 
-    <h1 class="text-3xl font-bold text-cyan-400 mb-2">Addon Tool</h1>
-    <p class="text-slate-400 mb-8 text-base leading-relaxed">
+    <h1 class="text-3xl font-bold text-orange-600 mb-2">Addon Tool</h1>
+    <p class="text-gray-500 mb-8 text-base leading-relaxed">
         Check your Neverball level set for errors, then (optionally) submit it for inclusion
         in the in-game downloads. Your submission will be reviewed before being accepted.
     </p>
 
     <noscript>
-        <p class="text-cyan-400 font-semibold mb-4">JavaScript is required to use this form.</p>
+        <p class="text-orange-600 font-semibold mb-4">JavaScript is required to use this form.</p>
     </noscript>
 
     <form id="submit-form" novalidate class="flex flex-col gap-6">
@@ -306,32 +498,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div id="upload-section">
             <label for="zip-file" class="block text-base font-semibold mb-2">ZIP file</label>
             <input type="file" id="zip-file" name="zip" accept=".zip" required autocomplete="off"
-                   class="block text-base text-slate-400 cursor-pointer
+                   class="block text-base text-gray-500 cursor-pointer
                           file:mr-4 file:py-2.5 file:px-5 file:rounded-md file:border-0
                           file:text-base file:font-semibold
-                          file:bg-slate-700 file:text-cyan-400 hover:file:bg-slate-600">
+                          file:bg-orange-500 file:text-white hover:file:bg-orange-600">
         </div>
 
         <!-- Step 2: Validation result (shown by JS) -->
         <div id="validation-result" style="display:none"
-             class="rounded-xl border border-slate-700 bg-slate-800 p-5 flex flex-col gap-4">
+             class="rounded-xl border border-orange-200 bg-white p-5 flex flex-col gap-4 shadow-sm">
 
             <div id="validation-errors" style="display:none">
-                <p class="text-base font-semibold text-red-400 mb-2">
+                <p class="text-base font-semibold text-red-600 mb-2">
                     Validation failed. Fix the errors below and try again:
                 </p>
-                <div id="error-list" class="text-base text-slate-300"></div>
+                <div id="error-list" class="text-base text-gray-700"></div>
             </div>
 
             <div id="validation-pass" style="display:none" class="flex flex-col gap-4">
-                <p class="text-base font-semibold text-emerald-400 text-center uppercase tracking-wide">
+                <p class="text-base font-semibold text-emerald-600 text-center uppercase tracking-wide">
                     Validation passed
                 </p>
                 <dl id="addon-meta" class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-base"></dl>
                 <div>
                     <p class="text-base font-semibold mb-1">Files included</p>
                     <ul id="file-list"
-                        class="font-mono text-sm bg-slate-900 border border-slate-700
+                        class="font-mono text-sm bg-orange-50 border border-orange-200
                                rounded p-3 max-h-48 overflow-y-auto list-none"></ul>
                 </div>
             </div>
@@ -339,10 +531,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Step 3: Submission form (shown by JS after validation passes) -->
         <div id="submission-section" style="display:none"
-             class="rounded-xl border border-slate-700 bg-slate-800 p-5 flex flex-col gap-4">
+             class="rounded-xl border border-orange-200 bg-white p-5 flex flex-col gap-4 shadow-sm">
 
-            <h2 class="text-lg font-semibold text-slate-100">Submit for Inclusion</h2>
-            <p class="text-base text-slate-400">
+            <h2 class="text-lg font-semibold text-gray-900">Submit for Inclusion</h2>
+            <p class="text-base text-gray-500">
                 Provide your details below. Your addon will be reviewed before
                 being added to the in-game addons repository.
             </p>
@@ -350,28 +542,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="flex flex-col gap-1">
                 <label for="submitter-name" class="text-base font-semibold">Your name</label>
                 <input type="text" id="submitter-name" name="name" required
-                       class="w-full rounded-md border border-slate-600 bg-slate-700 text-slate-100 px-4 py-3 text-base
-                              focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                       class="w-full rounded-md border border-gray-300 bg-white text-gray-900 px-4 py-3 text-base
+                              focus:outline-none focus:ring-2 focus:ring-orange-500">
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="submitter-email" class="text-base font-semibold">Email</label>
                 <input type="email" id="submitter-email" name="email" required
-                       class="w-full rounded-md border border-slate-600 bg-slate-700 text-slate-100 px-4 py-3 text-base
-                              focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                       class="w-full rounded-md border border-gray-300 bg-white text-gray-900 px-4 py-3 text-base
+                              focus:outline-none focus:ring-2 focus:ring-orange-500">
             </div>
 
             <div class="flex flex-col gap-1">
                 <label for="submit-message" class="text-base font-semibold">Message</label>
                 <textarea id="submit-message" name="message" rows="5" required
-                          class="w-full rounded-md border border-slate-600 bg-slate-700 text-slate-100 px-4 py-3 text-base
-                                 focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-y"></textarea>
+                          class="w-full rounded-md border border-gray-300 bg-white text-gray-900 px-4 py-3 text-base
+                                 focus:outline-none focus:ring-2 focus:ring-orange-500 resize-y"></textarea>
             </div>
 
             <div class="flex items-start gap-3">
                 <input type="checkbox" id="auth-confirm" required
-                       class="mt-1 h-5 w-5 accent-cyan-500 cursor-pointer flex-shrink-0">
-                <label for="auth-confirm" class="text-base text-slate-400 cursor-pointer leading-relaxed">
+                       class="mt-1 h-5 w-5 accent-orange-500 cursor-pointer flex-shrink-0">
+                <label for="auth-confirm" class="text-base text-gray-500 cursor-pointer leading-relaxed">
                     I certify that I am the author of this addon or that I have the
                     explicit permission of the original authors to submit this version.
                 </label>
@@ -379,8 +571,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <div>
                 <button type="submit" id="submit-btn" disabled
-                        class="px-6 py-3 rounded-md bg-cyan-500 text-slate-900 text-base
-                               font-semibold hover:bg-cyan-400 transition-colors
+                        class="px-6 py-3 rounded-md bg-orange-500 text-white text-base
+                               font-semibold hover:bg-orange-600 transition-colors
                                disabled:opacity-40 disabled:cursor-not-allowed">
                     Submit for Inclusion
                 </button>
@@ -389,7 +581,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Step 4: Status message (shown by JS) -->
         <div id="submit-status" style="display:none"
-             class="text-base px-4 py-3 rounded-md bg-slate-800 border border-slate-700">
+             class="text-base px-4 py-3 rounded-md bg-white border border-orange-200 shadow-sm">
         </div>
 
     </form>
@@ -437,7 +629,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         function makeCode(text) {
             var el = document.createElement('code');
-            el.className = 'font-mono bg-slate-700 text-slate-300 px-1 rounded text-xs ring-1 ring-slate-600';
+            el.className = 'font-mono bg-orange-100 text-orange-800 px-1 rounded text-xs ring-1 ring-orange-200';
             el.textContent = text;
             return el;
         }
@@ -451,7 +643,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 li.textContent = e.message || JSON.stringify(e);
                 if (e.found !== undefined) {
                     var found = document.createElement('div');
-                    found.className = 'mt-1 text-slate-400';
+                    found.className = 'mt-1 text-gray-500';
                     found.textContent = e.found.length
                         ? 'Found at root: ' + e.found.join(', ') + (e.foundMore ? '…' : '')
                         : 'Nothing found at root — the ZIP may have a top-level folder.';
@@ -531,10 +723,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ].forEach(function (pair) {
                 if (!pair[1]) return;
                 var dt = document.createElement('dt');
-                dt.className = 'font-semibold text-slate-300';
+                dt.className = 'font-semibold text-gray-700';
                 dt.textContent = pair[0];
                 var dd = document.createElement('dd');
-                dd.className = 'text-slate-400';
+                dd.className = 'text-gray-500';
                 if (pair[0] === 'Description') {
                     dd.innerHTML = escapeHtml(pair[1]).replace(/\\/g, '<br>');
                 } else {
@@ -549,7 +741,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     function showStatus(html, isError) {
         statusBox.style.display = '';
         statusBox.innerHTML = html;
-        statusBox.style.color = isError ? 'red' : '';
+        statusBox.style.color = isError ? '#dc2626' : '';
     }
 
     fileInput.addEventListener('change', async function () {

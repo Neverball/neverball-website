@@ -1,7 +1,7 @@
 import '../css/addon-tool.css';
 import { Buffer } from 'buffer';
 import JSZip from 'jszip';
-import check, { buildDeps } from 'neverball-checker';
+import check, { checkAddon } from 'neverball-checker';
 
 // Make Buffer available globally for neverball-solid (binary SOL parser)
 globalThis.Buffer = Buffer;
@@ -39,39 +39,23 @@ async function validate(file) {
     const rootFiles = fileList.filter(p => !p.includes('/'));
     const rootDirs  = [...new Set(fileList.filter(p => p.includes('/')).map(p => p.split('/')[0]))].map(d => d + '/');
     const allRoot   = [...rootFiles, ...rootDirs];
-    const rootEntries = allRoot.slice(0, 3);
     return {
       valid: false,
-      errors: [{ message: 'No set file found. Expected a file named set-<slug>.txt at the root of the ZIP.', found: rootEntries, foundMore: allRoot.length > 3 }],
+      errors: [{ message: 'No set file found. Expected a file named set-<slug>.txt at the root of the ZIP.', found: allRoot.slice(0, 3), foundMore: allRoot.length > 3 }],
       sets: [],
       files: fileList,
     };
   }
 
-  // Pass 1: Build dependency tree for all set files and merge
   const readFile = (path) => zipData[path] ?? null;
-  const zipDeps = Object.assign(
-    {},
-    ...setEntries.map(setEntry => buildDeps(setEntry, { readFile }).deps)
-  );
+  const { valid, sets: checkedSets } = checkAddon(stockAssets, fileList, readFile);
 
-  const combinedDeps = { ...stockAssets.deps, ...zipDeps };
-  const combinedFiles = new Set([...stockAssets.files, ...fileList]);
-
-  // Pass 2: Check each set file independently
-  const sets = setEntries.map(setEntry => {
-    const slug = setEntry.match(/^set-(.+)\.txt$/)[1];
+  const sets = checkedSets.map(({ setFile, slug, missingAssets }) => {
     const id = 'set-' + slug;
-
-    const setContent = zipData[setEntry].toString('utf8');
+    const setContent = zipData[setFile].toString('utf8');
     const lines = setContent.split(/\r?\n/);
     const name = lines[0]?.trim() || id;
     const description = lines[1]?.trim() || '';
-
-    const { missingAssets } = check(setEntry, {
-      deps: combinedDeps,
-      files: combinedFiles,
-    });
 
     const errors = Array.from(missingAssets.values()).map(asset => ({
       path: asset.path,
@@ -83,12 +67,7 @@ async function validate(file) {
     return { id, slug, name, description, errors, valid: errors.length === 0 };
   });
 
-  return {
-    valid: sets.every(s => s.valid),
-    errors: [],   // top-level errors only; per-set errors live in sets[n].errors
-    sets,
-    files: fileList,
-  };
+  return { valid, errors: [], sets, files: fileList };
 }
 
 /**
