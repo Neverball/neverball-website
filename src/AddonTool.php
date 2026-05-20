@@ -4,7 +4,7 @@ namespace Neverball;
 
 defined('IN_APP') || exit;
 
-class AddonSubmitter
+class AddonTool
 {
     private const MAX_ZIP_SIZE = 20 * 1024 * 1024; // 20 MB
     private const MAX_FILE_COUNT = 4096;
@@ -362,7 +362,7 @@ class AddonSubmitter
 
 if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
     $token = $_GET['token'];
-    $data  = AddonSubmitter::peekToken(BASE_DIR . '/uploads', $token);
+    $data  = AddonTool::peekToken(BASE_DIR . '/uploads', $token);
 
     header('Content-Type: text/html; charset=UTF-8');
     echo '<!DOCTYPE html>
@@ -397,7 +397,7 @@ if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
 
 if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     $token = $_GET['token'];
-    $data  = AddonSubmitter::consumeToken(BASE_DIR . '/uploads', $token);
+    $data  = AddonTool::consumeToken(BASE_DIR . '/uploads', $token);
 
     $ok  = false;
     $msg = 'Invalid or expired approval link.';
@@ -487,7 +487,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     });
 
     try {
-        (new \Neverball\AddonSubmitter())->handlePost();
+        (new \Neverball\AddonTool())->handlePost();
     } catch (\Throwable $e) {
         error_log("neverball-addon-tool: Exception " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
         echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
