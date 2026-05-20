@@ -158,6 +158,15 @@ class AddonSubmitter
                 $this->jsonError('ZIP contains too many files (max ' . self::MAX_FILE_COUNT . ').');
             }
 
+            $uncompressedSize = 0;
+            foreach ($zipFile->getEntries() as $entry) {
+                $uncompressedSize += $entry->getUncompressedSize();
+            }
+            if ($uncompressedSize > 200 * 1024 * 1024) {
+                $zipFile->close();
+                $this->jsonError('ZIP uncompressed size is too large (max 200 MB).');
+            }
+
             // Detect all set-*.txt files at ZIP root
             $setFiles = [];
 
