@@ -162,7 +162,7 @@ class AddonSubmitter
             $setFiles = [];
 
             foreach ($zipFile->getListFiles() as $name) {
-                if (preg_match('/^set-([^\/]+)\.txt$/', $name, $m)) {
+                if (preg_match('/^set-([a-zA-Z0-9_-]+)\.txt$/', $name, $m)) {
                     $setFiles[] = ['path' => $name, 'slug' => $m[1]];
                 }
             }
