@@ -25,6 +25,7 @@ class AddonSubmitter
         header('Content-Type: application/json');
 
         $this->checkAntispam();
+        $this->checkRateLimit();
         $this->validateEmail();
         $this->validateTextFields();
 
@@ -38,6 +39,28 @@ class AddonSubmitter
         $this->notifyAdmin($zip, $storagePath, $approvalToken);
 
         $this->jsonSuccess(['message' => 'Submission received. Thank you!']);
+    }
+
+    private function checkRateLimit(): void
+    {
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $ipHash = md5($ip);
+        $rateDir = $this->uploadDir . '/.ratelimit';
+        if (!is_dir($rateDir)) {
+            mkdir($rateDir, 0755, true);
+        }
+        $ipFile = $rateDir . '/' . $ipHash;
+        $now = time();
+        $requests = [];
+        if (file_exists($ipFile)) {
+            $requests = json_decode(file_get_contents($ipFile), true) ?: [];
+        }
+        $requests = array_filter($requests, fn($t) => $t > $now - 3600);
+        if (count($requests) >= 5) {
+            $this->jsonError('Too many submissions. Please try again later.');
+        }
+        $requests[] = $now;
+        file_put_contents($ipFile, json_encode(array_values($requests)));
     }
 
     private function notifyAdmin(array $zip, string $storagePath, string $approvalToken): void
