@@ -49,7 +49,7 @@ class AddonTool
         if (!is_dir($rateDir)) {
             mkdir($rateDir, 0777, true);
         }
-        @chmod($rateDir, 0777);
+        self::safeChmod($rateDir, 0777);
         $ipFile = $rateDir . '/' . $ipHash;
         $now = time();
         $requests = [];
@@ -277,7 +277,7 @@ class AddonTool
         if (!is_dir($this->uploadDir)) {
             mkdir($this->uploadDir, 0777, true);
         }
-        @chmod($this->uploadDir, 0777);
+        self::safeChmod($this->uploadDir, 0777);
 
         // Add a random 32-character hex suffix for security
         $randomSuffix = bin2hex(random_bytes(16));
@@ -287,17 +287,17 @@ class AddonTool
         if (!copy($tmpPath, $dest)) {
             throw new \RuntimeException('Failed to store ZIP.');
         }
-        @chmod($dest, 0666);
+        self::safeChmod($dest, 0666);
 
         // Record hash to prevent duplicate submissions
         $hashDir = $this->hashDir();
         if (!is_dir($hashDir)) {
             mkdir($hashDir, 0777, true);
         }
-        @chmod($hashDir, 0777);
+        self::safeChmod($hashDir, 0777);
         $hashFile = $hashDir . '/' . hash_file('sha256', $tmpPath);
         file_put_contents($hashFile, '');
-        @chmod($hashFile, 0666);
+        self::safeChmod($hashFile, 0666);
 
         return $dest;
     }
@@ -312,7 +312,7 @@ class AddonTool
         if (!is_dir($tokenDir)) {
             mkdir($tokenDir, 0777, true);
         }
-        @chmod($tokenDir, 0777);
+        self::safeChmod($tokenDir, 0777);
 
         $token = bin2hex(random_bytes(16));
         $data  = json_encode([
@@ -322,7 +322,7 @@ class AddonTool
         ]);
         $tokenFile = $tokenDir . '/' . $token;
         file_put_contents($tokenFile, $data);
-        @chmod($tokenFile, 0666);
+        self::safeChmod($tokenFile, 0666);
 
         return $token;
     }
@@ -382,6 +382,16 @@ class AddonTool
     // Route dispatch
     // ---------------------------------------------------------------------------
 
+    private static function safeChmod(string $path, int $mode): void
+    {
+        if (file_exists($path) && function_exists('fileowner') && function_exists('getmyuid')) {
+            $owner = @fileowner($path);
+            if ($owner === false || $owner === getmyuid()) {
+                @chmod($path, $mode);
+            }
+        }
+    }
+
     private static function logError(string $message): void
     {
         $logDir = BASE_DIR . '/logs';
@@ -390,13 +400,13 @@ class AddonTool
         }
         if (!file_exists($logDir . '/.htaccess')) {
             @file_put_contents($logDir . '/.htaccess', "Options -Indexes\n<FilesMatch \".*\">\n    Deny from all\n</FilesMatch>\n");
-            @chmod($logDir . '/.htaccess', 0666);
+            self::safeChmod($logDir . '/.htaccess', 0666);
         }
 
         $logFile = $logDir . '/addon_tool.log';
         $entry   = '[' . date('Y-m-d H:i:s') . '] ' . $message . "\n";
         @file_put_contents($logFile, $entry, FILE_APPEND);
-        @chmod($logFile, 0666);
+        self::safeChmod($logFile, 0666);
 
         error_log("neverball-addon-tool: " . $message);
     }
@@ -519,9 +529,13 @@ class AddonTool
             header('Content-Type: application/json');
             // Catch any unhandled errors and return JSON instead of raw PHP output
             set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                // Respect @ error suppression operator
+                if (!(error_reporting() & $errno)) {
+                    return false;
+                }
                 // Ignore deprecation notices
                 if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
-                    return;
+                    return false;
                 }
                 self::logError("PHP error $errstr in $errfile:$errline");
                 header('Content-Type: application/json');
