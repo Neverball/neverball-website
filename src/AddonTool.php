@@ -488,7 +488,7 @@ class AddonTool
                 }
                 error_log("neverball-addon-tool: PHP error $errstr in $errfile:$errline");
                 header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
+                echo json_encode(['success' => false, 'error' => "An internal error occurred: $errstr ($errfile:$errline)"]);
                 exit;
             });
 
@@ -496,7 +496,7 @@ class AddonTool
                 (new self())->handlePost();
             } catch (\Throwable $e) {
                 error_log("neverball-addon-tool: Exception " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
-                echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
+                echo json_encode(['success' => false, 'error' => 'An internal error occurred: ' . $e->getMessage() . ' (' . basename($e->getFile()) . ':' . $e->getLine() . ')']);
             }
             exit;
         }
