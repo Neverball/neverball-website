@@ -6,6 +6,5 @@
 /uploads/*
 !/uploads/.htaccess
 /.env
-/dist/
-/.vite
 /deploy.sh
+

@@ -1,0 +1,11 @@
+{
+  "resources/js/addon-tool.js": {
+    "file": "addon-tool.CeCwlhwk.js",
+    "name": "addon-tool",
+    "src": "resources/js/addon-tool.js",
+    "isEntry": true,
+    "css": [
+      "addon-tool.DLgI_-7C.css"
+    ]
+  }
+}
