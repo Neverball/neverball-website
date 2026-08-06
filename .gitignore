@@ -8,3 +8,4 @@
 /.env
 /dist/
 /.vite
+/deploy.sh
