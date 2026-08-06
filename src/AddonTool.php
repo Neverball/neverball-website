@@ -412,6 +412,54 @@ class AddonTool
         error_log("neverball-addon-tool: " . $message);
     }
 
+    private static function dispatchGitHubEvent(string $repo, string $pat, array $payload): array
+    {
+        $url  = "https://api.github.com/repos/$repo/dispatches";
+        $json = json_encode($payload);
+
+        if (function_exists('curl_init')) {
+            $ch = \curl_init($url);
+            \curl_setopt_array($ch, [
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => $json,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER     => [
+                    'Accept: application/vnd.github+json',
+                    'Authorization: Bearer ' . $pat,
+                    'Content-Type: application/json',
+                    'User-Agent: neverball-website',
+                ],
+            ]);
+            $response = \curl_exec($ch);
+            $httpCode = \curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlErr  = \curl_error($ch);
+            \curl_close($ch);
+            return ['code' => $httpCode, 'response' => $response, 'error' => $curlErr];
+        }
+
+        // Fallback: Use PHP HTTP stream wrapper if php-curl extension is missing
+        $options = [
+            'http' => [
+                'method'        => 'POST',
+                'header'        => "Accept: application/vnd.github+json\r\n" .
+                                   "Authorization: Bearer $pat\r\n" .
+                                   "Content-Type: application/json\r\n" .
+                                   "User-Agent: neverball-website\r\n",
+                'content'       => $json,
+                'ignore_errors' => true,
+            ],
+        ];
+        $context  = stream_context_create($options);
+        $response = @file_get_contents($url, false, $context);
+        $httpCode = 0;
+        if (isset($http_response_header) && is_array($http_response_header)) {
+            if (preg_match('/HTTP\/\d\.\d\s+(\d+)/i', $http_response_header[0], $m)) {
+                $httpCode = (int) $m[1];
+            }
+        }
+        return ['code' => $httpCode, 'response' => $response, 'error' => ''];
+    }
+
     public static function handleRequest(): void
     {
         try {
@@ -474,7 +522,7 @@ class AddonTool
                         $msg = 'GitHub dispatch not configured on this server (GITHUB_PACKAGES_REPO or GITHUB_DISPATCH_TOKEN missing in .env).';
                         self::logError("GitHub dispatch failed: GITHUB_PACKAGES_REPO or GITHUB_DISPATCH_TOKEN missing in environment.");
                     } else {
-                        $payload = json_encode([
+                        $payload = [
                             'event_type'     => 'addon-submission',
                             'client_payload' => [
                                 'zip_url'    => BASE_URL . '/uploads/' . $data['zip'],
@@ -482,24 +530,12 @@ class AddonTool
                                 'addon_id'   => $data['id'],
                                 'addon_name' => $data['addonName'],
                             ],
-                        ]);
+                        ];
 
-                        $ch = curl_init("https://api.github.com/repos/$repo/dispatches");
-                        curl_setopt_array($ch, [
-                            CURLOPT_POST           => true,
-                            CURLOPT_POSTFIELDS     => $payload,
-                            CURLOPT_RETURNTRANSFER => true,
-                            CURLOPT_HTTPHEADER     => [
-                                'Accept: application/vnd.github+json',
-                                'Authorization: Bearer ' . $pat,
-                                'Content-Type: application/json',
-                                'User-Agent: neverball-website',
-                            ],
-                        ]);
-                        $response = curl_exec($ch);
-                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                        $curlErr  = curl_error($ch);
-                        curl_close($ch);
+                        $result   = self::dispatchGitHubEvent($repo, $pat, $payload);
+                        $httpCode = $result['code'];
+                        $response = $result['response'];
+                        $curlErr  = $result['error'];
 
                         if ($httpCode === 204) {
                             $ok  = true;
@@ -508,7 +544,7 @@ class AddonTool
                             self::deleteToken(BASE_DIR . '/uploads', $token);
                         } else {
                             $errDetail = trim($response ?: $curlErr ?: 'No response body');
-                            self::logError("GitHub dispatch failed for repo '$repo' (HTTP $httpCode). cURL error: '$curlErr'. Response: '$response'");
+                            self::logError("GitHub dispatch failed for repo '$repo' (HTTP $httpCode). Error: '$curlErr'. Response: '$response'");
                             $msg = 'GitHub API returned HTTP ' . $httpCode . '. Detail: ' . htmlspecialchars($errDetail);
                         }
                     }
