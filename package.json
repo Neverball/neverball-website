@@ -17,6 +17,11 @@
     "vite": "^5.0.0"
   },
   "optionalDependencies": {
-    "@tailwindcss/oxide-linux-x64-gnu": "^4.2.2"
+    "@tailwindcss/oxide-linux-arm64-gnu": "^4.2.2",
+    "@tailwindcss/oxide-linux-arm64-musl": "^4.2.2",
+    "@tailwindcss/oxide-linux-x64-gnu": "^4.2.2",
+    "@tailwindcss/oxide-linux-x64-musl": "^4.2.2",
+    "@tailwindcss/oxide-wasm32-wasi": "^4.2.2"
   }
 }
+
