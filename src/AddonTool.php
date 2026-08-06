@@ -148,9 +148,13 @@ class AddonTool
         $file = $_FILES['zip'] ?? null;
 
         if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
-            $err = $file['error'] ?? UPLOAD_ERR_NO_FILE;
+            $err           = $file['error'] ?? UPLOAD_ERR_NO_FILE;
+            $iniUploadMax  = ini_get('upload_max_filesize');
+            $iniPostMax    = ini_get('post_max_size');
+            $contentLength = $_SERVER['CONTENT_LENGTH'] ?? 'unknown';
+
             $uploadErrors = [
-                UPLOAD_ERR_INI_SIZE   => 'File exceeds upload_max_filesize in php.ini',
+                UPLOAD_ERR_INI_SIZE   => "File exceeds upload_max_filesize ($iniUploadMax) or post_max_size ($iniPostMax)",
                 UPLOAD_ERR_FORM_SIZE  => 'File exceeds MAX_FILE_SIZE in form',
                 UPLOAD_ERR_PARTIAL    => 'File was only partially uploaded',
                 UPLOAD_ERR_NO_FILE    => 'No file was received in submission',
@@ -159,7 +163,7 @@ class AddonTool
                 UPLOAD_ERR_EXTENSION  => 'PHP extension stopped the file upload',
             ];
             $detail = $uploadErrors[$err] ?? "Unknown upload error code $err";
-            self::logError("Upload failed with error code $err: $detail");
+            self::logError("Upload failed with error code $err: $detail (Content-Length: $contentLength)");
             $this->jsonError("Upload failed: $detail (code $err).");
         }
 
