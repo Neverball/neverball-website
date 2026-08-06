@@ -16,6 +16,7 @@ const LOG_DIR = BASE_DIR . '/logs';
 if (!is_dir(LOG_DIR)) {
     @mkdir(LOG_DIR, 0777, true);
 }
+@chmod(LOG_DIR, 0777);
 if (!file_exists(LOG_DIR . '/.htaccess')) {
     @file_put_contents(LOG_DIR . '/.htaccess', "Options -Indexes\n<FilesMatch \".*\">\n    Deny from all\n</FilesMatch>\n");
 }

@@ -49,6 +49,7 @@ class AddonTool
         if (!is_dir($rateDir)) {
             mkdir($rateDir, 0777, true);
         }
+        @chmod($rateDir, 0777);
         $ipFile = $rateDir . '/' . $ipHash;
         $now = time();
         $requests = [];
@@ -262,6 +263,7 @@ class AddonTool
         if (!is_dir($this->uploadDir)) {
             mkdir($this->uploadDir, 0777, true);
         }
+        @chmod($this->uploadDir, 0777);
 
         // Add a random 32-character hex suffix for security
         $randomSuffix = bin2hex(random_bytes(16));
@@ -278,6 +280,7 @@ class AddonTool
         if (!is_dir($hashDir)) {
             mkdir($hashDir, 0777, true);
         }
+        @chmod($hashDir, 0777);
         $hashFile = $hashDir . '/' . hash_file('sha256', $tmpPath);
         file_put_contents($hashFile, '');
         @chmod($hashFile, 0666);
@@ -295,6 +298,7 @@ class AddonTool
         if (!is_dir($tokenDir)) {
             mkdir($tokenDir, 0777, true);
         }
+        @chmod($tokenDir, 0777);
 
         $token = bin2hex(random_bytes(16));
         $data  = json_encode([
