@@ -342,23 +342,24 @@ class AddonTool
         return $data ?: null;
     }
 
-    public static function consumeToken(string $uploadDir, string $token): ?array
+    public static function deleteToken(string $uploadDir, string $token): void
     {
-        if (!preg_match('/^[0-9a-f]{32}$/', $token)) {
-            return null;
+        if (preg_match('/^[0-9a-f]{32}$/', $token)) {
+            $path = $uploadDir . '/.tokens/' . $token;
+            if (is_file($path)) {
+                @unlink($path);
+            }
         }
-
-        $path = $uploadDir . '/.tokens/' . $token;
-        if (!is_file($path)) {
-            return null;
-        }
-
-        $data = json_decode(file_get_contents($path), true);
-        unlink($path); // one-time use
-
-        return $data ?: null;
     }
 
+    public static function consumeToken(string $uploadDir, string $token): ?array
+    {
+        $data = self::peekToken($uploadDir, $token);
+        if ($data) {
+            self::deleteToken($uploadDir, $token);
+        }
+        return $data;
+    }
 
     // -------------------------------------------------------------------------
     // Response helpers
@@ -414,6 +415,15 @@ class AddonTool
     public static function handleRequest(): void
     {
         try {
+            $viteCss = '';
+            if (isset($GLOBALS['vite'])) {
+                try {
+                    $viteCss = $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css;
+                } catch (\Throwable $t) {
+                    $viteCss = '';
+                }
+            }
+
             if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
                 $token = $_GET['token'];
                 $data  = self::peekToken(BASE_DIR . '/uploads', $token);
@@ -426,7 +436,7 @@ class AddonTool
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Addon Approval – Neverball</title>
     <link rel="icon" href="/images/favicon-modern.svg">
-    ' . $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css . '
+    ' . $viteCss . '
 </head>
 <body class="min-h-screen bg-orange-50 text-gray-900 font-sans">
 <div class="max-w-2xl mx-auto px-4 py-12">
@@ -451,7 +461,7 @@ class AddonTool
 
             if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
                 $token = $_GET['token'];
-                $data  = self::consumeToken(BASE_DIR . '/uploads', $token);
+                $data  = self::peekToken(BASE_DIR . '/uploads', $token);
 
                 $ok  = false;
                 $msg = 'Invalid or expired approval link.';
@@ -494,6 +504,8 @@ class AddonTool
                         if ($httpCode === 204) {
                             $ok  = true;
                             $msg = 'Workflow triggered for <strong>' . htmlspecialchars($data['addonName']) . '</strong>. Check GitHub Actions for progress.';
+                            // Only delete token after successful dispatch
+                            self::deleteToken(BASE_DIR . '/uploads', $token);
                         } else {
                             $errDetail = trim($response ?: $curlErr ?: 'No response body');
                             self::logError("GitHub dispatch failed for repo '$repo' (HTTP $httpCode). cURL error: '$curlErr'. Response: '$response'");
@@ -510,7 +522,7 @@ class AddonTool
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Addon Approval – Neverball</title>
     <link rel="icon" href="/images/favicon-modern.svg">
-    ' . $GLOBALS['vite']->createTags('resources/js/addon-tool.js')->css . '
+    ' . $viteCss . '
 </head>
 <body class="min-h-screen bg-orange-50 text-gray-900 font-sans">
 <div class="max-w-2xl mx-auto px-4 py-12">
