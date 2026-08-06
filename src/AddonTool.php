@@ -526,7 +526,6 @@ AddonTool::handleRequest();
 
     <form id="submit-form" novalidate class="flex flex-col gap-6">
 
-        <!-- Honeypot: must remain empty -->
         <input type="text" name="website" id="website"
                style="display:none" tabindex="-1" aria-hidden="true" autocomplete="off">
         <input type="hidden" name="form_loaded_at" id="form_loaded_at">
