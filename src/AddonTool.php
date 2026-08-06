@@ -461,7 +461,8 @@ class AddonTool
                     $pat   = $_ENV['GITHUB_DISPATCH_TOKEN'] ?? null;
 
                     if (!$repo || !$pat) {
-                        $msg = 'GitHub dispatch not configured on this server.';
+                        $msg = 'GitHub dispatch not configured on this server (GITHUB_PACKAGES_REPO or GITHUB_DISPATCH_TOKEN missing in .env).';
+                        self::logError("GitHub dispatch failed: GITHUB_PACKAGES_REPO or GITHUB_DISPATCH_TOKEN missing in environment.");
                     } else {
                         $payload = json_encode([
                             'event_type'     => 'addon-submission',
@@ -485,15 +486,18 @@ class AddonTool
                                 'User-Agent: neverball-website',
                             ],
                         ]);
-                        curl_exec($ch);
+                        $response = curl_exec($ch);
                         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        $curlErr  = curl_error($ch);
                         curl_close($ch);
 
                         if ($httpCode === 204) {
                             $ok  = true;
                             $msg = 'Workflow triggered for <strong>' . htmlspecialchars($data['addonName']) . '</strong>. Check GitHub Actions for progress.';
                         } else {
-                            $msg = 'GitHub API returned HTTP ' . $httpCode . '. Check server configuration.';
+                            $errDetail = trim($response ?: $curlErr ?: 'No response body');
+                            self::logError("GitHub dispatch failed for repo '$repo' (HTTP $httpCode). cURL error: '$curlErr'. Response: '$response'");
+                            $msg = 'GitHub API returned HTTP ' . $httpCode . '. Detail: ' . htmlspecialchars($errDetail);
                         }
                     }
                 }
