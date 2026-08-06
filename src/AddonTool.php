@@ -263,8 +263,8 @@ class AddonTool
             mkdir($this->uploadDir, 0755, true);
         }
 
-        // Add a random 16-character suffix for security
-        $randomSuffix = bin2hex(random_bytes(8));
+        // Add a random 32-character hex suffix for security
+        $randomSuffix = bin2hex(random_bytes(16));
         $filename     = $id . '-' . $randomSuffix . '.zip';
         $dest         = $this->uploadDir . '/' . $filename;
 
