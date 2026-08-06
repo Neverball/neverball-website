@@ -413,12 +413,13 @@ class AddonTool
 
     public static function handleRequest(): void
     {
-        if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
-            $token = $_GET['token'];
-            $data  = self::peekToken(BASE_DIR . '/uploads', $token);
+        try {
+            if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
+                $token = $_GET['token'];
+                $data  = self::peekToken(BASE_DIR . '/uploads', $token);
 
-            header('Content-Type: text/html; charset=UTF-8');
-            echo '<!DOCTYPE html>
+                header('Content-Type: text/html; charset=UTF-8');
+                echo '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -431,74 +432,74 @@ class AddonTool
 <div class="max-w-2xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-orange-600 mb-6">Addon Approval</h1>';
 
-            if ($data) {
-                echo '<div class="bg-white p-6 rounded-lg shadow-sm border border-orange-100">';
-                echo '<p class="text-base text-gray-700 mb-6">Are you sure you want to approve the addon <strong>' . htmlspecialchars($data['addonName']) . '</strong>?</p>';
-                echo '<form method="POST" action="?token=' . htmlspecialchars($token) . '">';
-                echo '<button type="submit" class="px-6 py-3 rounded-md bg-orange-500 text-white text-base font-semibold hover:bg-orange-600 transition-colors">Approve Addon</button>';
-                echo '</form>';
-                echo '</div>';
-            } else {
-                echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
-                echo '<span class="font-medium">Error:</span> Invalid or expired approval link.';
-                echo '</div>';
+                if ($data) {
+                    echo '<div class="bg-white p-6 rounded-lg shadow-sm border border-orange-100">';
+                    echo '<p class="text-base text-gray-700 mb-6">Are you sure you want to approve the addon <strong>' . htmlspecialchars($data['addonName']) . '</strong>?</p>';
+                    echo '<form method="POST" action="/addon-tool?token=' . htmlspecialchars($token) . '">';
+                    echo '<button type="submit" class="px-6 py-3 rounded-md bg-orange-500 text-white text-base font-semibold hover:bg-orange-600 transition-colors">Approve Addon</button>';
+                    echo '</form>';
+                    echo '</div>';
+                } else {
+                    echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
+                    echo '<span class="font-medium">Error:</span> Invalid or expired approval link.';
+                    echo '</div>';
+                }
+
+                echo '</div></body></html>';
+                exit;
             }
 
-            echo '</div></body></html>';
-            exit;
-        }
+            if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                $token = $_GET['token'];
+                $data  = self::consumeToken(BASE_DIR . '/uploads', $token);
 
-        if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $token = $_GET['token'];
-            $data  = self::consumeToken(BASE_DIR . '/uploads', $token);
+                $ok  = false;
+                $msg = 'Invalid or expired approval link.';
 
-            $ok  = false;
-            $msg = 'Invalid or expired approval link.';
+                if ($data) {
+                    $repo  = $_ENV['GITHUB_PACKAGES_REPO'] ?? null;
+                    $pat   = $_ENV['GITHUB_DISPATCH_TOKEN'] ?? null;
 
-            if ($data) {
-                $repo  = $_ENV['GITHUB_PACKAGES_REPO'] ?? null;
-                $pat   = $_ENV['GITHUB_DISPATCH_TOKEN'] ?? null;
-
-                if (!$repo || !$pat) {
-                    $msg = 'GitHub dispatch not configured on this server.';
-                } else {
-                    $payload = json_encode([
-                        'event_type'     => 'addon-submission',
-                        'client_payload' => [
-                            'zip_url'    => BASE_URL . '/uploads/' . $data['zip'],
-                            'assets_url' => BASE_URL . '/neverball-assets.json',
-                            'addon_id'   => $data['id'],
-                            'addon_name' => $data['addonName'],
-                        ],
-                    ]);
-
-                    $ch = curl_init("https://api.github.com/repos/$repo/dispatches");
-                    curl_setopt_array($ch, [
-                        CURLOPT_POST           => true,
-                        CURLOPT_POSTFIELDS     => $payload,
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_HTTPHEADER     => [
-                            'Accept: application/vnd.github+json',
-                            'Authorization: Bearer ' . $pat,
-                            'Content-Type: application/json',
-                            'User-Agent: neverball-website',
-                        ],
-                    ]);
-                    curl_exec($ch);
-                    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                    curl_close($ch);
-
-                    if ($httpCode === 204) {
-                        $ok  = true;
-                        $msg = 'Pull request workflow triggered for <strong>' . htmlspecialchars($data['addonName']) . '</strong>. Check GitHub Actions for progress.';
+                    if (!$repo || !$pat) {
+                        $msg = 'GitHub dispatch not configured on this server.';
                     } else {
-                        $msg = 'GitHub API returned HTTP ' . $httpCode . '. Check server configuration.';
+                        $payload = json_encode([
+                            'event_type'     => 'addon-submission',
+                            'client_payload' => [
+                                'zip_url'    => BASE_URL . '/uploads/' . $data['zip'],
+                                'assets_url' => BASE_URL . '/neverball-assets.json',
+                                'addon_id'   => $data['id'],
+                                'addon_name' => $data['addonName'],
+                            ],
+                        ]);
+
+                        $ch = curl_init("https://api.github.com/repos/$repo/dispatches");
+                        curl_setopt_array($ch, [
+                            CURLOPT_POST           => true,
+                            CURLOPT_POSTFIELDS     => $payload,
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_HTTPHEADER     => [
+                                'Accept: application/vnd.github+json',
+                                'Authorization: Bearer ' . $pat,
+                                'Content-Type: application/json',
+                                'User-Agent: neverball-website',
+                            ],
+                        ]);
+                        curl_exec($ch);
+                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                        curl_close($ch);
+
+                        if ($httpCode === 204) {
+                            $ok  = true;
+                            $msg = 'Workflow triggered for <strong>' . htmlspecialchars($data['addonName']) . '</strong>. Check GitHub Actions for progress.';
+                        } else {
+                            $msg = 'GitHub API returned HTTP ' . $httpCode . '. Check server configuration.';
+                        }
                     }
                 }
-            }
 
-            header('Content-Type: text/html; charset=UTF-8');
-            echo '<!DOCTYPE html>
+                header('Content-Type: text/html; charset=UTF-8');
+                echo '<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -511,17 +512,23 @@ class AddonTool
 <div class="max-w-2xl mx-auto px-4 py-12">
     <h1 class="text-3xl font-bold text-orange-600 mb-6">Addon Approval</h1>';
 
-            if ($ok) {
-                echo '<div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">';
-                echo '<span class="font-medium">Success:</span> ' . $msg;
-                echo '</div>';
-            } else {
-                echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
-                echo '<span class="font-medium">Error:</span> ' . $msg;
-                echo '</div>';
-            }
+                if ($ok) {
+                    echo '<div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50" role="alert">';
+                    echo '<span class="font-medium">Success:</span> ' . $msg;
+                    echo '</div>';
+                } else {
+                    echo '<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">';
+                    echo '<span class="font-medium">Error:</span> ' . $msg;
+                    echo '</div>';
+                }
 
-            echo '</div></body></html>';
+                echo '</div></body></html>';
+                exit;
+            }
+        } catch (\Throwable $e) {
+            self::logError("Approval error: " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine() . "\n" . $e->getTraceAsString());
+            header('Content-Type: text/html; charset=UTF-8', true, 500);
+            echo '<!DOCTYPE html><html><body style="font-family:sans-serif;padding:2rem;"><h1>Approval Error</h1><p>' . htmlspecialchars($e->getMessage()) . '</p></body></html>';
             exit;
         }
 
