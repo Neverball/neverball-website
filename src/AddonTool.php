@@ -364,6 +364,25 @@ class AddonTool
     // Route dispatch
     // ---------------------------------------------------------------------------
 
+    private static function logError(string $message): void
+    {
+        $logDir = BASE_DIR . '/logs';
+        if (!is_dir($logDir)) {
+            @mkdir($logDir, 0777, true);
+        }
+        if (!file_exists($logDir . '/.htaccess')) {
+            @file_put_contents($logDir . '/.htaccess', "Options -Indexes\n<FilesMatch \".*\">\n    Deny from all\n</FilesMatch>\n");
+            @chmod($logDir . '/.htaccess', 0666);
+        }
+
+        $logFile = $logDir . '/addon_tool.log';
+        $entry   = '[' . date('Y-m-d H:i:s') . '] ' . $message . "\n";
+        @file_put_contents($logFile, $entry, FILE_APPEND);
+        @chmod($logFile, 0666);
+
+        error_log("neverball-addon-tool: " . $message);
+    }
+
     public static function handleRequest(): void
     {
         if (isset($_GET['token']) && $_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -486,17 +505,17 @@ class AddonTool
                 if ($errno === E_DEPRECATED || $errno === E_USER_DEPRECATED) {
                     return;
                 }
-                error_log("neverball-addon-tool: PHP error $errstr in $errfile:$errline");
+                self::logError("PHP error $errstr in $errfile:$errline");
                 header('Content-Type: application/json');
-                echo json_encode(['success' => false, 'error' => "An internal error occurred: $errstr ($errfile:$errline)"]);
+                echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
                 exit;
             });
 
             try {
                 (new self())->handlePost();
             } catch (\Throwable $e) {
-                error_log("neverball-addon-tool: Exception " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine());
-                echo json_encode(['success' => false, 'error' => 'An internal error occurred: ' . $e->getMessage() . ' (' . basename($e->getFile()) . ':' . $e->getLine() . ')']);
+                self::logError("Exception " . $e->getMessage() . " in " . $e->getFile() . ":" . $e->getLine() . "\n" . $e->getTraceAsString());
+                echo json_encode(['success' => false, 'error' => 'An internal error occurred.']);
             }
             exit;
         }
