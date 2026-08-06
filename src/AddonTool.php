@@ -148,9 +148,19 @@ class AddonTool
         $file = $_FILES['zip'] ?? null;
 
         if (!$file || $file['error'] !== UPLOAD_ERR_OK) {
-            $err = $file['error'] ?? 'no file';
-            error_log("neverball-addon-tool: upload failed with error $err");
-            $this->jsonError('Upload failed. Please try again.');
+            $err = $file['error'] ?? UPLOAD_ERR_NO_FILE;
+            $uploadErrors = [
+                UPLOAD_ERR_INI_SIZE   => 'File exceeds upload_max_filesize in php.ini',
+                UPLOAD_ERR_FORM_SIZE  => 'File exceeds MAX_FILE_SIZE in form',
+                UPLOAD_ERR_PARTIAL    => 'File was only partially uploaded',
+                UPLOAD_ERR_NO_FILE    => 'No file was received in submission',
+                UPLOAD_ERR_NO_TMP_DIR => 'Missing temporary upload directory on server',
+                UPLOAD_ERR_CANT_WRITE => 'Failed to write file to temporary disk (/tmp permission or disk full)',
+                UPLOAD_ERR_EXTENSION  => 'PHP extension stopped the file upload',
+            ];
+            $detail = $uploadErrors[$err] ?? "Unknown upload error code $err";
+            self::logError("Upload failed with error code $err: $detail");
+            $this->jsonError("Upload failed: $detail (code $err).");
         }
 
         if ($file['size'] > self::MAX_ZIP_SIZE) {
