@@ -2,6 +2,8 @@
 
 defined('IN_APP') || exit;
 
+umask(0002);
+
 require_once __DIR__ . '/vendor/autoload.php';
 (Dotenv\Dotenv::createImmutable(__DIR__))->safeLoad();
 
@@ -12,7 +14,7 @@ const LOG_DIR = BASE_DIR . '/logs';
 
 // Create secure log directory protected by .htaccess
 if (!is_dir(LOG_DIR)) {
-    @mkdir(LOG_DIR, 0755, true);
+    @mkdir(LOG_DIR, 0775, true);
 }
 if (!file_exists(LOG_DIR . '/.htaccess')) {
     @file_put_contents(LOG_DIR . '/.htaccess', "Options -Indexes\n<FilesMatch \".*\">\n    Deny from all\n</FilesMatch>\n");

@@ -47,7 +47,7 @@ class AddonTool
         $ipHash = md5($ip);
         $rateDir = $this->uploadDir . '/.ratelimit';
         if (!is_dir($rateDir)) {
-            mkdir($rateDir, 0755, true);
+            mkdir($rateDir, 0775, true);
         }
         $ipFile = $rateDir . '/' . $ipHash;
         $now = time();
@@ -260,7 +260,7 @@ class AddonTool
     private function storeZip(string $tmpPath, string $id): string
     {
         if (!is_dir($this->uploadDir)) {
-            mkdir($this->uploadDir, 0755, true);
+            mkdir($this->uploadDir, 0775, true);
         }
 
         // Add a random 32-character hex suffix for security
@@ -275,7 +275,7 @@ class AddonTool
         // Record hash to prevent duplicate submissions
         $hashDir = $this->hashDir();
         if (!is_dir($hashDir)) {
-            mkdir($hashDir, 0755, true);
+            mkdir($hashDir, 0775, true);
         }
         file_put_contents($hashDir . '/' . hash_file('sha256', $tmpPath), '');
 
@@ -290,7 +290,7 @@ class AddonTool
     {
         $tokenDir = $this->uploadDir . '/.tokens';
         if (!is_dir($tokenDir)) {
-            mkdir($tokenDir, 0755, true);
+            mkdir($tokenDir, 0775, true);
         }
 
         $token = bin2hex(random_bytes(16));
