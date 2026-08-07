@@ -164,7 +164,13 @@ class AddonTool
             ];
             $detail = $uploadErrors[$err] ?? "Unknown upload error code $err";
             self::logError("Upload failed with error code $err: $detail (Content-Length: $contentLength)");
-            $this->jsonError("Upload failed: $detail (code $err).");
+
+            $clientMessage = match ($err) {
+                UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE => 'File too large. Maximum size is 20 MB.',
+                UPLOAD_ERR_NO_FILE => 'No file was received in submission.',
+                default => 'Upload failed. Please try again or contact an administrator.',
+            };
+            $this->jsonError($clientMessage);
         }
 
         if ($file['size'] > self::MAX_ZIP_SIZE) {
