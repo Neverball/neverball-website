@@ -16,7 +16,6 @@ $routes = [
     'release' => CONTROLLER_DIR . '/release.php',
     'screenshots' => CONTROLLER_DIR . '/screenshots.php',
     'changes' => CONTROLLER_DIR . '/changes.php',
-    'addon-tool' => CONTROLLER_DIR . '/AddonTool.php',
 ];
 
 if (isset($routes[$route])) {

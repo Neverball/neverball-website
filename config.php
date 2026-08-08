@@ -25,9 +25,3 @@ if (!file_exists(LOG_DIR . '/.htaccess')) {
 
 ini_set('log_errors', '1');
 ini_set('error_log', LOG_DIR . '/php_errors.log');
-
-$vite = new mindplay\vite\Manifest(
-    dev:           ($_ENV['APP_ENV'] ?? 'production') === 'development',
-    manifest_path: BASE_DIR . '/dist/.vite/manifest.json',
-    base_path:     '/dist/',
-);
