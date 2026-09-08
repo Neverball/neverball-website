@@ -1,10 +1,50 @@
 <?php
 $title = "Neverball";
+$description = "Neverball is a free, open-source skill and puzzle game. Tilt the floor to roll through obstacle courses. Play right away in your browser or download for desktop.";
 include("includes/header.php");
 ?>
 <main id="main">
-	<div id="contents">
+	<section id="hero" aria-label="Neverball overview">
+		<div id="screenshot">
+			<video src="/images/anim.mp4" poster="/images/anim.jpg" width="640" height="360" loop muted autoplay playsinline title="Neverball gameplay preview" aria-label="Neverball gameplay preview"></video>
+		</div>
 
+		<h2><span class="neverball-text">Tilt the floor. Roll the ball. Beat the clock!</span></h2>
+
+		<p class="text-sm leading-relaxed">
+			<strong>Neverball</strong> is a free, open-source skill and puzzle game. Guide your ball through precarious obstacle courses before time runs out by tilting the world beneath it. Play right away in your web browser or download the desktop version which also includes <strong>Neverputt</strong>, the companion hot-seat miniature golf game.
+		</p>
+
+		<div class="hero-actions flex flex-wrap gap-2 items-center">
+			<a href="https://play.neverball.org" target="_blank" class="neverball-button update-button-focused">Play in Browser</a>
+			<a href="/download" class="neverball-button">Download Neverball</a>
+		</div>
+
+		<p class="text-xs text-muted">
+			Free &amp; open-source for Linux, Windows, macOS, and FreeBSD.
+		</p>
+	</section>
+
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "VideoGame",
+		"name": "Neverball",
+		"description": "Neverball is a free, open-source 3D skill and puzzle game. Tilt the floor to roll a ball through obstacle courses before time runs out.",
+		"url": "<?php echo BASE_URL; ?>",
+		"image": "<?php echo BASE_URL; ?>/images/anim.jpg",
+		"genre": ["Puzzle", "Action", "Skill"],
+		"gamePlatform": ["Web Browser", "Linux", "Windows", "macOS", "FreeBSD"],
+		"applicationCategory": "Game",
+		"offers": {
+			"@type": "Offer",
+			"price": "0",
+			"priceCurrency": "USD"
+		}
+	}
+	</script>
+
+	<div id="contents">
 		<h2>News</h2>
 		
 		<div>
@@ -40,11 +80,6 @@ include("includes/header.php");
 				</div>
 			</article>
 		</div>
-
-		<h2>About</h2>
-		<p>Tilt the floor to roll a ball through an obstacle course before time runs out. Neverball is part puzzle game, part action game, and entirely a test of skill.</p>
-		<p>Also found here is Neverputt, a hot-seat multiplayer miniature golf game, built on the physics and graphics engine of Neverball.</p>
-		<p>Neverball is known to run under Linux, Windows, FreeBSD, and Mac OSX. Hardware accelerated OpenGL is required. A modern processor is recommended.</p>
 
 		<h2>Community &amp; Contact</h2>
 		<p>Visit the community <a href="https://discord.gg/HhMfr4N6H6">Neverball Discord</a> server to get in touch with other players and designers.</p>
