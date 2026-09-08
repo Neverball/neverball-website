@@ -44,8 +44,8 @@ include("includes/header.php");
 	}
 	</script>
 
-	<div id="contents">
-		<h2>News</h2>
+	<section class="content-box" id="news" aria-labelledby="news-heading">
+		<h2 id="news-heading">News</h2>
 		
 		<div>
 			<article>
@@ -80,14 +80,18 @@ include("includes/header.php");
 				</div>
 			</article>
 		</div>
+	</section>
 
-		<h2>Community &amp; Contact</h2>
+	<section class="content-box" id="community" aria-labelledby="community-heading">
+		<h2 id="community-heading">Community &amp; Contact</h2>
 		<p>Visit the community <a href="https://discord.gg/HhMfr4N6H6">Neverball Discord</a> server to get in touch with other players and designers.</p>
 		<p>We are also on <a href="https://github.com/Neverball">Github</a> (be sure to check out the <a href="https://github.com/Neverball/neverball/discussions">discussions</a> section) and <a href="https://steamcommunity.com/groups/neverball">Steam</a>.</p>
+	</section>
 
-		<h2>Level Design</h2>
+	<section class="content-box" id="level-design" aria-labelledby="level-design-heading">
+		<h2 id="level-design-heading">Level Design</h2>
 		<p>Players interested in trying their hand at level creation are encouraged to read through the <a href="http://github.com/neverball/neverball-docs">level design documentation</a>. Levels of sufficent quality may be included in the next version; authors will be credited in-game.</p>
-	</div>
+	</section>
 </main>
 
 <?php
