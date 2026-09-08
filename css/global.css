@@ -21,6 +21,7 @@ body {
 	margin: 0 auto;
 }
 br { clear: both; }
+strong, b { font-weight: bold; }
 p { line-height: 140%; padding: 4px 0 14px 0; }
 h1, h2 {
 	color: #333;
