@@ -49,6 +49,22 @@ include("includes/header.php");
 		
 		<div>
 			<article>
+				<h3>Play Neverball in your browser <time datetime="2026-09-08">September 8, 2026</time></h3>
+
+				<p>
+					As you might have noticed from the new button on the front page, Neverball is now playable directly in your web browser over at <a href="https://play.neverball.org" target="_blank">play.neverball.org</a>. No download or installation required, just open the link and start rolling.
+				</p>
+
+				<p>
+					It runs on desktop and mobile alike, with on-screen touch controls and fullscreen support. If you play on your phone, you can also use your browser's "Add to Home screen" option to keep an icon handy and launch it just like an app (which works especially well on Android).
+				</p>
+
+				<p>
+					Give it a spin and let us know how it works for you on <a href="https://discord.gg/HhMfr4N6H6" target="_blank">Neverball Discord</a>!
+				</p>
+			</article>
+
+			<article>
 				<h3>More curves? Yes, please! <time datetime="2025-04-03">April 3, 2025</time></h3>
 
 				<p>
