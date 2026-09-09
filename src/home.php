@@ -21,7 +21,7 @@ include("includes/header.php");
 		</div>
 
 		<p class="text-xs text-muted">
-			Free &amp; open-source for Linux, Windows, macOS, and FreeBSD.
+			Free &amp; open-source for Linux, Windows, macOS, and your system.
 		</p>
 	</section>
 
