@@ -3,7 +3,7 @@ Options -MultiViews -Indexes
 RewriteEngine on
 
 # Redirect old URLs to new ones
-RewriteRule ^(download|release|screenshots|changes)\.php$ /$1 [R=301,QSA,END]
+RewriteRule ^(download|release|screenshots)\.php$ /$1 [R=301,QSA,END]
 RewriteRule ^contributors\.php$ /credits [R=301,QSA,END]
 
 RewriteRule ^(neverball-.*(\.tar\.gz|\.exe|\.dmg|\.zip))$ https://icculus.org/neverball/$1 [NC,L]

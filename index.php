@@ -15,7 +15,6 @@ $routes = [
     'credits' => CONTROLLER_DIR . '/contributors.php',
     'release' => CONTROLLER_DIR . '/release.php',
     'screenshots' => CONTROLLER_DIR . '/screenshots.php',
-    'changes' => CONTROLLER_DIR . '/changes.php',
 ];
 
 if (isset($routes[$route])) {
