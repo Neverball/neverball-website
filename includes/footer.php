@@ -8,5 +8,6 @@
 				<a href="http://icculus.org/"><img src="/images/icculus-org.png" width="88px" height="31px" alt="icculus.org"></a>
 			</div>
 		</footer>
+		<script type="module" src="/js/bg-init.js"></script>
 	</body>
 </html>

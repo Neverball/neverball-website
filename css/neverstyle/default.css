@@ -1,6 +1,7 @@
 @import url("../global.css");
 
 body{
+	isolation: isolate;
 	background:
 		no-repeat 0% 82px url("../../images/neverstyle/loops3.png"),
 		no-repeat 100% 82px url("../../images/neverstyle/loops4.png"),
@@ -14,6 +15,29 @@ body{
 	min-height: 100dvh; /* For dynamic browser bars. */
 	display: flex;
 	flex-direction: column;
+}
+
+#bg-canvas {
+	position: fixed;
+	inset: 0;
+	width: 100vw;
+	height: 100vh;
+	pointer-events: none;
+	z-index: -1;
+	opacity: 0;
+	transition: opacity 0.8s ease-out;
+	content-visibility: auto;
+	contain-intrinsic-size: auto none auto 100vh;
+}
+
+#bg-canvas.is-active {
+	opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	#bg-canvas {
+		display: none;
+	}
 }
 
 #banner-wrapper a {

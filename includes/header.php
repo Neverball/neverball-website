@@ -37,8 +37,10 @@ $meta_image = BASE_URL . "/images/anim.jpg";
 
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon">
 	<link rel="stylesheet" href="/css/neverstyle/default.css?v=<?php echo filemtime(BASE_DIR . '/css/neverstyle/default.css'); ?>" type="text/css" title="Neverstyle">
+	<link rel="modulepreload" href="/js/neverball-bg.js">
 </head>
 <body>
+	<canvas id="bg-canvas" aria-hidden="true"></canvas>
 	<input type="checkbox" id="menu-toggle" class="hidden" autocomplete="off">
 
 	<header>

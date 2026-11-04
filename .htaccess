@@ -1,5 +1,10 @@
 Options -MultiViews -Indexes
 
+<IfModule mod_mime.c>
+	AddType application/wasm .wasm
+	AddType application/octet-stream .sol
+</IfModule>
+
 RewriteEngine on
 
 # Redirect old URLs to new ones
