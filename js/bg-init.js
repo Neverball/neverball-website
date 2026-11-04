@@ -46,7 +46,7 @@ import { NeverballBg, PRESETS } from './neverball-bg.js';
       locateFile: (path) => `/js/${path}`,
       fov: 40.0,
       driftSpeed: 0.005,
-      interactive: true,
+      interactive: false,
       autostart: true,
     });
 
