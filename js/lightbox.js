@@ -6,6 +6,32 @@ const links = Array.from(document.querySelectorAll('a[data-lightbox]'));
 
 if (dialog && img && links.length > 0) {
 	let currentIndex = 0;
+	const preloaded = new Set();
+
+	const preload = (index) => {
+		const idx = (index + links.length) % links.length;
+		const href = links[idx].href;
+		if (!preloaded.has(href)) {
+			preloaded.add(href);
+			const pre = new Image();
+			pre.src = href;
+		}
+	};
+
+	const preloadAll = () => {
+		let i = 0;
+		const step = () => {
+			if (i < links.length) {
+				preload(i++);
+				if ('requestIdleCallback' in window) {
+					requestIdleCallback(step);
+				} else {
+					setTimeout(step, 50);
+				}
+			}
+		};
+		step();
+	};
 
 	const showImage = (index) => {
 		currentIndex = (index + links.length) % links.length;
@@ -13,6 +39,10 @@ if (dialog && img && links.length > 0) {
 		img.src = link.href;
 		const thumb = link.querySelector('img');
 		img.alt = thumb?.alt || 'Screenshot preview';
+
+		// Preload adjacent images immediately for instant flipping
+		preload(currentIndex + 1);
+		preload(currentIndex - 1);
 	};
 
 	links.forEach((link, i) => {
@@ -20,6 +50,7 @@ if (dialog && img && links.length > 0) {
 			e.preventDefault();
 			showImage(i);
 			dialog.showModal();
+			preloadAll();
 		});
 	});
 

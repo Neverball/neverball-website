@@ -9,46 +9,46 @@ include("includes/header.php");
 
 		<div class="screenshot-grid">
 			<a href="/images/screenshots/neverball-01.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-01-thumb.webp" alt="Neverball screenshot 1" width="512" height="384" fetchpriority="high">
+				<img src="/images/screenshots/neverball-01-thumb.jpg" alt="Neverball screenshot 1" width="512" height="384" fetchpriority="high">
 			</a>
 			<a href="/images/screenshots/neverball-02.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-02-thumb.webp" alt="Neverball screenshot 2" width="512" height="384">
+				<img src="/images/screenshots/neverball-02-thumb.jpg" alt="Neverball screenshot 2" width="512" height="384">
 			</a>
 			<a href="/images/screenshots/neverball-03.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-03-thumb.webp" alt="Neverball screenshot 3" width="512" height="384">
+				<img src="/images/screenshots/neverball-03-thumb.jpg" alt="Neverball screenshot 3" width="512" height="384">
 			</a>
 			<a href="/images/screenshots/neverball-04.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-04-thumb.webp" alt="Neverball screenshot 4" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-04-thumb.jpg" alt="Neverball screenshot 4" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-05.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-05-thumb.webp" alt="Neverball screenshot 5" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-05-thumb.jpg" alt="Neverball screenshot 5" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-06.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-06-thumb.webp" alt="Neverball screenshot 6" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-06-thumb.jpg" alt="Neverball screenshot 6" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-07.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-07-thumb.webp" alt="Neverball screenshot 7" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-07-thumb.jpg" alt="Neverball screenshot 7" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-08.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-08-thumb.webp" alt="Neverball screenshot 8" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-08-thumb.jpg" alt="Neverball screenshot 8" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-09.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-09-thumb.webp" alt="Neverball screenshot 9" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-09-thumb.jpg" alt="Neverball screenshot 9" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-10.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-10-thumb.webp" alt="Neverball screenshot 10" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-10-thumb.jpg" alt="Neverball screenshot 10" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-11.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-11-thumb.webp" alt="Neverball screenshot 11" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-11-thumb.jpg" alt="Neverball screenshot 11" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-12.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-12-thumb.webp" alt="Neverball screenshot 12" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-12-thumb.jpg" alt="Neverball screenshot 12" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-13.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-13-thumb.webp" alt="Neverball screenshot 13" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-13-thumb.jpg" alt="Neverball screenshot 13" width="512" height="384" loading="lazy">
 			</a>
 			<a href="/images/screenshots/neverball-14.jpg" class="screenshot-thumb" data-lightbox>
-				<img src="/images/screenshots/neverball-14-thumb.webp" alt="Neverball screenshot 14" width="512" height="384" loading="lazy">
+				<img src="/images/screenshots/neverball-14-thumb.jpg" alt="Neverball screenshot 14" width="512" height="384" loading="lazy">
 			</a>
 		</div>
 
