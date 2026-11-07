@@ -1,8 +1,7 @@
 <?php
 global $current_route;
 
-$canonical_query = http_build_query(array_intersect_key($_GET, array_flip(['id', 'set'])));
-$canonical_link = BASE_URL . ($current_route ? '/' . $current_route : '') . ($canonical_query ? '?' . $canonical_query : '');
+$canonical_link = BASE_URL . ($current_route ? '/' . $current_route : '');
 
 $meta_description = $description ?? "Neverball is a free, open-source 3D skill and puzzle game. Tilt the floor to roll through obstacle courses. Play in your browser or download for desktop.";
 $meta_title = $title ?? "Neverball";

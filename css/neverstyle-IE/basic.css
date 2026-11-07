@@ -57,14 +57,4 @@ pre {
 	width: 356px;
 }
 #wrapper, #navigation{ background: transparent; }
-* html div.shot{
-  float: left;
-}
-* html div.shot a.prev{
-  margin: -40px 0 0;
-}
-* html div.controls a{
-  height: 525px;
-  background-position: center 250px;
-}
-.fullimg p { padding: 0 0 16px 0; }
+
