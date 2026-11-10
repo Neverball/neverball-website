@@ -11,7 +11,7 @@ include("includes/header.php");
 
 		<h2><span class="neverball-text">Tilt the floor. Roll the ball. Beat the clock!</span></h2>
 
-		<p class="text-sm leading-relaxed">
+		<p class="leading-relaxed">
 			<strong>Neverball</strong> is a free, open-source skill and puzzle game. Guide your ball through precarious obstacle courses before time runs out by tilting the world beneath it. Play right away in your web browser or download the desktop version which also includes <strong>Neverputt</strong>, the companion hot-seat miniature golf game.
 		</p>
 
