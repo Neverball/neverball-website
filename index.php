@@ -20,6 +20,9 @@ $routes = [
 if (isset($routes[$route])) {
 	$current_route = $route;
 	$controller = $routes[$route];
+} elseif ($route === 'blog' || str_starts_with($route, 'blog/')) {
+	$current_route = $route;
+	$controller = CONTROLLER_DIR . '/blog.php';
 } else {
 	http_response_code(404);
 	$controller = CONTROLLER_DIR . '/404.php';

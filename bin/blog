@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+set -e
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DRAFTS="$DIR/content/blog/drafts"
+PUBLISHED="$DIR/content/blog/published"
+
+mkdir -p "$DRAFTS" "$PUBLISHED"
+
+cmd="${1:-list}"
+
+case "$cmd" in
+    new)
+        title="$2"
+        if [ -z "$title" ]; then
+            echo "Usage: $0 new \"Post Title\"" >&2
+            exit 1
+        fi
+        slug=$(echo "$title" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9' '-' | sed 's/^-//;s/-$//')
+        timestamp=$(date -u +%Y-%m-%d-%H%M%S)
+        filepath="$DRAFTS/${timestamp}-${slug}.html"
+        cat << TEMPLATE > "$filepath"
+<!--
+title: $title
+date: $(date -u +%Y-%m-%d)
+-->
+<p>
+    $title content goes here...
+</p>
+TEMPLATE
+        echo "Created draft: $filepath"
+        ;;
+
+    publish)
+        slug="$2"
+        if [ -z "$slug" ]; then
+            echo "Usage: $0 publish <slug>" >&2
+            exit 1
+        fi
+        found=0
+        for f in "$DRAFTS"/*-"$slug".html "$DRAFTS"/"$slug".html; do
+            if [ -f "$f" ]; then
+                mv "$f" "$PUBLISHED/"
+                echo "Published: $(basename "$f")"
+                found=1
+                break
+            fi
+        done
+        if [ $found -eq 0 ]; then
+            echo "Error: Draft not found for slug '$slug'" >&2
+            exit 1
+        fi
+        ;;
+
+    unpublish)
+        slug="$2"
+        if [ -z "$slug" ]; then
+            echo "Usage: $0 unpublish <slug>" >&2
+            exit 1
+        fi
+        found=0
+        for f in "$PUBLISHED"/*-"$slug".html "$PUBLISHED"/"$slug".html; do
+            if [ -f "$f" ]; then
+                mv "$f" "$DRAFTS/"
+                echo "Unpublished: $(basename "$f")"
+                found=1
+                break
+            fi
+        done
+        if [ $found -eq 0 ]; then
+            echo "Error: Published post not found for slug '$slug'" >&2
+            exit 1
+        fi
+        ;;
+
+    list)
+        echo "=== Published ==="
+        shopt -s nullglob
+        pub_files=( "$PUBLISHED"/*.html )
+        if [ ${#pub_files[@]} -eq 0 ]; then
+            echo "(none)"
+        else
+            for f in "${pub_files[@]}"; do
+                echo "  $(basename "$f")"
+            done
+        fi
+        echo ""
+        echo "=== Drafts ==="
+        draft_files=( "$DRAFTS"/*.html )
+        if [ ${#draft_files[@]} -eq 0 ]; then
+            echo "(none)"
+        else
+            for f in "${draft_files[@]}"; do
+                echo "  $(basename "$f")"
+            done
+        fi
+        ;;
+
+    *)
+        echo "Usage: $0 {new <title>|publish <slug>|unpublish <slug>|list}"
+        exit 1
+        ;;
+esac
