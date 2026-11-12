@@ -433,14 +433,17 @@ strong, b,
 	color: #FFAF00;
 }
 
-.content-box a.neverball-button {
+.content-box a.neverball-button,
+#contents a.neverball-button {
 	text-decoration: none;
 	color: #ffffff;
 	background: rgba(25, 25, 25, 0.5);
 }
 
 .content-box a.neverball-button:hover,
-.content-box a.neverball-button:focus {
+.content-box a.neverball-button:focus,
+#contents a.neverball-button:hover,
+#contents a.neverball-button:focus {
 	text-decoration: none;
 	color: #ffffff;
 	background: rgba(255, 178, 76, 0.73);
